@@ -4,19 +4,26 @@ The Study Abroad Peer Advisor (SAPA) organization is a group of students who hav
 http://ufsapa.com
 
 Deliverables
+
 P1
+
 Admin/Executives:
-·       Send email (automated or not) to all members
-·       Check member points (which are calculated by some script that reads from database)
-·       Create/Change events
-·       Add or Remove members
+
+*       Send email (automated or not) to all members
+*       Check member points (which are calculated by some script that reads from database)
+*       Create/Change events
+*       Add or Remove members
+
 Members:
-·       Each member has a personal profile with info about their experience (picture in profile)
-·       Each member has a Member: points: events: office hours: email: program major
-·       Contact information in their profile
-·       Change their info (email, number, office hours)
-·       Sign up for events
-·       Sign in to meetings
+
+*       Each member has a personal profile with info about their experience (picture in profile)
+*       Each member has a Member: points: events: office hours: email: program major
+*       Contact information in their profile
+*       Change their info (email, number, office hours)
+*       Sign up for events
+*      Sign in to meetings
+
 P3
+
 Non Members:
-·       Apply for position (name, email, answer a question)
+*       Apply for position (name, email, answer a question)
