@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 
 var memberSchema = new Schema({
-    //TODO: ADD ANY SHCEMA INFO THAT I MISSED
+    //TODO: ADD ANY SCHEMA INFO THAT I MISSED
     contactInfo: {
         name: String,
         email: String, 
@@ -21,7 +21,8 @@ var memberSchema = new Schema({
     },
     private: {
         points: Number,
-        events: [String]
+        events: [String],
+        userID: Number //to connect to user superuser wouldnt have one
     }
 });
 
