@@ -21,7 +21,11 @@ Members:
 *       Contact information in their profile
 *       Change their info (email, number, office hours)
 *       Sign up for events
-*      Sign in to meetings
+*       Sign in to meetings (in separate tab from events)
+
+Non Members:
+*		Each non member should be able to see the public profiles of all members
+*       Each non member should be able to see the overview page of SAPA
 
 P3
 
