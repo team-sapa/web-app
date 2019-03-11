@@ -7,6 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "mongoose": "^4.2.9",

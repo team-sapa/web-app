@@ -4,10 +4,10 @@ var path = require('path'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
   config = require('./config');
-  users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, MEMBERS, EVENTS
+users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, MEMBERS, EVENTS
   members = require('../resources/members/members'),
   events = require('../resources/events/events');
-  
+
 
 
 module.exports.init = function () {
@@ -27,9 +27,9 @@ module.exports.init = function () {
   app.use('/', express.static('client'));
 
   //enable routes/controller for members, events, users
-  app.use('/members', members);
-  app.use('/users', users);
-  app.use('/events', events)
+  //app.use('/members', members);   CAUSES CRASH -> Router.use() requires a middleware function but got a Object
+  //app.use('/users', users);
+  //app.use('/events', events)
 
   //Go to homepage for all routes not specified
   app.all('/*', function (req, res) {
