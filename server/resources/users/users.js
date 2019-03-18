@@ -16,6 +16,7 @@ router.post('/register', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let email = req.body.email;
+    
 
     bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
         .then(hash => {
