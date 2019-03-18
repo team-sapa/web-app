@@ -12,7 +12,14 @@ users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, 
 
 module.exports.init = function () {
   //connect to database
-  mongoose.connect(config.db.uri);
+  mongoose.connect(config.db.uri).then(
+    () => {
+      console.log("\nConnected to MLAB\n");
+    },
+    err => {
+      console.log("\nERROR connecting to MLAB: " + err);
+    }
+  );
 
   //initialize app
   var app = express();
