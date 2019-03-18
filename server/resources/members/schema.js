@@ -5,24 +5,52 @@ var Schema = mongoose.Schema;
 var memberSchema = new Schema({
     //TODO: ADD ANY SCHEMA INFO THAT I MISSED
     contactInfo: {
-        name: String,
+        firstName: String,
+        lastName: String,
+        birthdate: String,
+        active: Boolean,
         email: String, 
         phone: String,
         program: String,
-        major: String,
-        officeHours: String,
+        country: String,
+        major1: String,
+        major2: String,
+        minor1: String,
+        minor2: String,
+       
     },
     bio: {
-        study: String,
-        travel: String,
-        challenges: String,
-        advice: String,
-        experience: String
+        officeHours: String,
+        question1: String,
+        question2: String,
+        question3: String,
+        question4: String,
+        question5: String
     },
-    private: {
-        points: Number,
-        events: [String],
-        userID: Number //to connect to user superuser wouldnt have one
+    points: {
+        //Updated based on rsvp or an executive 
+        social: Number,
+        infoSession: Number,
+        fundraiser: Number,
+        outreach: Number,
+        emailOutreach: Number,
+        miscellanous: Number,
+        missed: Number, 
+        deduction: Number,
+        officeHour: Number,
+        total: Number,
+        required: Number
+    },
+    events: {
+        //updated when a member rsvps to event
+        socialEvents: [String],
+        infoSessions: [String],
+        fundraisers: [String],
+        emailOutreach: [String],
+        misc: [String],           
+        missedEvents: [String], //Updated when a member doesnt rsvp 
+        deductionReason: [String], 
+        officeHours: [String]
     }
 });
 
