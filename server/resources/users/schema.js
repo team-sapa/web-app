@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectID = mongoose.Schema.Types.ObjectId;
 
 var usersSchema = new Schema({
-  memberID: ObejctID, //For linking users to their memeber data
+  memberID: ObjectID, //For linking users to their memeber data
   username: String,
   password: String,
   email: String,
