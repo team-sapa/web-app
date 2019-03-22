@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
+var ObjectID = mongoose.Schema.Types.ObjectId;
 
 var memberSchema = new Schema({
     //TODO: ADD ANY SCHEMA INFO THAT I MISSED
     contactInfo: {
+        userID: ObjectID, //For linking member data to user
         username: String,
         firstName: String,
         lastName: String,
