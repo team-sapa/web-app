@@ -12,7 +12,6 @@ var eventSchema = new Schema({
         attend: String, //Present, Absent, or Excused
         excuse: String //request for excuse
     }
-
 });
 
 var Events = mongoose.model('events', eventSchema, 'events');
