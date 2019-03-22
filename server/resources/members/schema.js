@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var memberSchema = new Schema({
     //TODO: ADD ANY SCHEMA INFO THAT I MISSED
     contactInfo: {
+        username: String,
         firstName: String,
         lastName: String,
         birthdate: String,

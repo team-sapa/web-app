@@ -5,3 +5,5 @@ const express = require('express'),
     Member = require('./schema.js');
 
 //TODO
+
+module.exports = router

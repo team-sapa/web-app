@@ -5,3 +5,5 @@ const express = require('express'),
     Event = require('./schema.js');
 
 //TODO: Implement controller for events
+
+module.exports = router
