@@ -1,9 +1,34 @@
-//ROUTES FOR EVENTS
+var mongoose = require('mongoose'),
+    Event = require('schema.js');
 
-const express = require('express'),
-    router = express.Router(),
-    Event = require('./schema.js');
+    //LIST ALL EVENTS
+    exports.list = (req, res) => {
 
-//TODO: Implement controller for events
+    };
 
-module.exports = router
+    //CREATE NEW EVENT (ADMIN)
+    exports.create = (req, res) => {
+
+    };
+
+    //DISPLAYS SINGLE EVENT'S INFO
+    exports.info = (req, res) => {
+
+    };
+
+    //UPDATE SINGLE EVENT'S INFO (ADMIN)
+    exports.update = (req, res) => {
+
+    };
+
+    //MIDDLEWARE TO FIND EVENT
+    exports.eventByID = (req, res, next, id) => {
+        Event.findById(id).exec((err, event) => {
+          if(err) {
+            res.status(400).send(err);
+          } else {
+            req.event = event;
+            next();
+          }
+        });
+      };

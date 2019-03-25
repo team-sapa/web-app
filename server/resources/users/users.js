@@ -1,3 +1,9 @@
+/* 
+This file is now depricated do not use
+*/
+
+
+
 //ROUTES FOR USERS (ROUTE AND CONTROLLER IN THE SAME FILE)
 const express = require('express'),
     router = express.Router(),
@@ -13,11 +19,11 @@ const express = require('express'),
  *      implement logic for interpreting salted password in the request
  */
 router.post('/register', (req, res) => {
-    let username = req.body.username;
+    
     let password = req.body.password;
     let email = req.body.email;
     
-
+    
     bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
         .then(hash => {
             let user = new User({
