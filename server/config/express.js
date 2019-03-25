@@ -3,18 +3,19 @@ var path = require('path'),
   mongoose = require('mongoose'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
-  config = require('./config'),
   //users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, MEMBERS, EVENTS
   //members = require('../resources/members/routes');
-  //events = require('../resources/events/router'), 
+  //events = require('../resources/events/router'),
   //attendance = require('../resources/attendance/router');
   memberRouter = require('../resources/members/routes'),
   eventRouter = require('../resources/events/routes');
 
+  require('dotenv').config(); // to use env variables
+
 
 module.exports.init = function () {
   //connect to database
-  mongoose.connect(config.db.uri).then(
+  mongoose.connect(process.env.db_uri).then(
     () => {
       console.log("\nConnected to MLAB\n");
     },
@@ -35,7 +36,7 @@ module.exports.init = function () {
   //Serve static files
   app.use('/', express.static('client'));
 
- //TODO CHECK IF THIS WORKS
+  //TODO CHECK IF THIS WORKS
   app.use('/members', memberRouter);
   app.use('/events', eventRouter);
 
