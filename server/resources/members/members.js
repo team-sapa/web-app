@@ -46,6 +46,7 @@ var mongoose = require('mongoose'),
         //if user level high enough or currentID is the memberID
         //update information
         
+
     };
 
     //Might have to change this so it find the memberID instead
@@ -60,3 +61,10 @@ var mongoose = require('mongoose'),
           }
         });
       };
+
+    exports.registerByID = (req, res, next, id) => {
+        //Find member with register string
+        Member.find
+        //add that register string to req body
+
+    }

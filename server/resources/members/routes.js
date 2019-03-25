@@ -6,7 +6,10 @@ router = express.Router();
 
 
 router.route('/register')
-    .post(member.register);     //registers a member 
+    .post(member.create)     //registers a member 
+
+router.route('/register/:registerID')
+    .patch(member.register);    //set password dont login redirect to login page
 
 router.route('/login')
     .post(member.login);        //login for member
@@ -23,5 +26,7 @@ router.route('/:memberID')
 
 //Middleware to pass memberID to the route
 router.param('memberID', member.memberByID);
+
+router.param('registerID', member.registerByID);
 
 module.exports = router;

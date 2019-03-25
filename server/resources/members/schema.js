@@ -9,7 +9,7 @@ var memberSchema = new Schema({
         email: {type: String, index: {required: true, unique: true, dropDups: true}},
         password: {type: String, required: true},
         level: Number, //USER LEVEL: 0 - MEMBER 1 - ADMIN 2 - SUPERUSER -- check before routing function
-
+        registerID: String,
     
     //Contact Information
     contactInfo: {
