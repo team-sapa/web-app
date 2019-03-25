@@ -20,5 +20,6 @@ var mongoose = require('mongoose'),
 
     //CREATES AN ATTENDANCE DOC WHEN MEMBER RESPONDS TO EVENT (THAT MEMBER)
     exports.create = (req, res) => {
-
+        console.log("att test");
+        res.json("att nice");
     };

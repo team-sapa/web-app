@@ -36,8 +36,8 @@ module.exports.init = function () {
   app.use('/', express.static('client'));
 
  //TODO CHECK IF THIS WORKS
-  app.use('/api/members', memberRouter);
-  app.use('/api/events', eventRouter);
+  app.use('/members', memberRouter);
+  app.use('/events', eventRouter);
 
   //Go to homepage for all routes not specified
   app.all('/*', function (req, res) {

@@ -7,6 +7,9 @@ var mongoose = require('mongoose'),
         //if admin allow registration
         //hash password
         //create member
+        console.log(req.body.email);
+        console.log("test");
+        res.json('nice');
         
     };
 
