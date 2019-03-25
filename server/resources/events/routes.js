@@ -12,7 +12,7 @@ router.route('/')
 router.route('/:eventID')
     .get(event.info)            //displays this events info
     .patch(event.update)        //allows admins to update events (memberlevel high enough)
-    .post(attendance.create)    //creates attendance doc for this member w/ their status 
+    .post(attendance.create)    //creates attendance doc for this member w/ their status (update points here?) 
     .get(attendance.memberList); //displays this events attendance list
 
 
