@@ -3,11 +3,13 @@ var path = require('path'),
   mongoose = require('mongoose'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
-  config = require('./config');
-  users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, MEMBERS, EVENTS
-  members = require('../resources/members/members'),
-  events = require('../resources/events/events');
-
+  config = require('./config'),
+  //users = require('../resources/users/users'),        //REQUIRE ROUTES FOR USERS, MEMBERS, EVENTS
+  //members = require('../resources/members/routes');
+  //events = require('../resources/events/router'), 
+  //attendance = require('../resources/attendance/router');
+  memberRouter = require('../resources/members/routes'),
+  eventRouter = require('../resources/events/routes');
 
 
 module.exports.init = function () {
@@ -33,10 +35,9 @@ module.exports.init = function () {
   //Serve static files
   app.use('/', express.static('client'));
 
-  //enable routes/controller for members, events, users
-  app.use('/members', members);   //CAUSES CRASH -> Router.use() requires a middleware function but got a Object
-  app.use('/users', users);
-  app.use('/events', events);
+ //TODO CHECK IF THIS WORKS
+  app.use('/api/members', memberRouter);
+  app.use('/api/events', eventRouter);
 
   //Go to homepage for all routes not specified
   app.all('/*', function (req, res) {
