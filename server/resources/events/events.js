@@ -1,14 +1,17 @@
 var mongoose = require('mongoose'),
-    Event = require('schema.js');
+    Event = require('../events/schema');
 
     //LIST ALL EVENTS
     exports.list = (req, res) => {
-
+        console.log("test1")
+        console.log(req);
+        res.json("nice1")
     };
 
     //CREATE NEW EVENT (ADMIN)
     exports.create = (req, res) => {
-
+        console.log("test2");
+        res.json("nice2");
     };
 
     //DISPLAYS SINGLE EVENT'S INFO

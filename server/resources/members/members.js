@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Member = require('schema.js');
+    Member = require('../members/schema');
 
     //REGISTERS MEMBERS (ADMIN)
     exports.register = (req,res) => {
@@ -7,6 +7,9 @@ var mongoose = require('mongoose'),
         //if admin allow registration
         //hash password
         //create member
+        console.log(req.body.email);
+        console.log("test");
+        res.json('nice');
         
     };
 
@@ -20,11 +23,21 @@ var mongoose = require('mongoose'),
     //LIST ALL MEMBERS 
     exports.list = (req, res) => {
         //list all members
+        Member.find({}, (err, member)=>{
+            if(err){
+                console.log(err);
+                res.status(404).send(err);
+            }
+            else
+            res.json(member);
+            console.log("Member List Retrieved")
+        }).sort({code: 1});
     };
 
     //DISPLAY SINGLE MEMBER'S INFO
     exports.info = (req, res) => {
         //display specific member
+        res.json(req.member);
     };
 
     //UPDATES SINGLE MEMBER'S INFO (ADMIN/THAT MEMBER)
@@ -32,6 +45,7 @@ var mongoose = require('mongoose'),
         //check current user level/memberID
         //if user level high enough or currentID is the memberID
         //update information
+        
     };
 
     //Might have to change this so it find the memberID instead
