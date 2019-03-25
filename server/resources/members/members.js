@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Member = require('schema.js');
+    Member = require('../members/schema');
 
     //REGISTERS MEMBERS (ADMIN)
     exports.register = (req,res) => {

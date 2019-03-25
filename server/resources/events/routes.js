@@ -1,4 +1,4 @@
-var event = require('/events.js'), 
+var event = require('../events/events'), 
     attendance = require('../attendance/attendance.js'),
     member = require('../members/members.js'),
     express = require('express'), 

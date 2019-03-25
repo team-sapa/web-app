@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Attendance = require('schema.js');
+    Attendance = require('../attendance/schema');
 
     //LISTS ALL MEMBER'S EVENT RESPONSES
         //list of events for that member

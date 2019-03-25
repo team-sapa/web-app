@@ -1,4 +1,4 @@
-var member = require('members.js'), 
+var member = require('../members/members'), 
 attendance = require('../attendance/attendance.js'),
 express = require('express'), 
 router = express.Router();

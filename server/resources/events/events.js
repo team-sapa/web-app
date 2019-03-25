@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Event = require('schema.js');
+    Event = require('../events/schema');
 
     //LIST ALL EVENTS
     exports.list = (req, res) => {
