@@ -10,10 +10,10 @@ router.route('/')
     .post(member.verifyToken, event.create);     //allow admins to create events (memberlevel high enough)
 
 router.route('/:eventID')
-    .get(event.info)            //displays this events info
+    .get(event.info,attendance.memberList)            //displays this events info
     .patch(member.verifyToken, event.update)        //allows admins to update events (memberlevel high enough)
     .post(member.verifyToken, attendance.create)    //creates attendance doc for this member w/ their status (update points here?) 
-    .get(attendance.memberList); //displays this events attendance list
+    //.get(attendance.memberList); //displays this events attendance list
 
 
 //Middleware to pass eventID to the route
