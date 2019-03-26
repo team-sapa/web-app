@@ -1,28 +1,46 @@
 var mongoose = require('mongoose'),
     Member = require('../members/schema');
+let jwt = require('jsonwebtoken');
 
     //REGISTERS MEMBERS (ADMIN)
-    exports.register = (req,res) => {
-        //check current user level
-        //if admin allow registration
-        //hash password
-        //create member
+    exports.create = (req,res) => {
         console.log(req.body.email);
         console.log("test");
         res.json('nice');
         
     };
 
+    //MEMBER SET PASSWORD
+    exports.register = (req, res) => {
+    
+    };
+
+    /*TODO: 
+    *       Authenticate email/password
+    *       retrieve member object
+    */
     //LOGS IN MEMBERS
     exports.login = (req, res) => {
-        //validate email/password
-        //jwt
-        //login
+        //TESTING 
+        var member = {
+            email: "test@test.com",
+            password: "testpass",
+            userLevel: 2
+        };
+
+        //do stuff here
+        
+        //create jwt attach to response
+        jwt.sign({member}, 'super secret key', (err, token) => {
+            res.json({
+                token //client will have to store this in local storage
+            })
+        });
+        
     };
 
     //LIST ALL MEMBERS 
     exports.list = (req, res) => {
-        //list all members
         Member.find({}, (err, member)=>{
             if(err){
                 console.log(err);
@@ -36,21 +54,36 @@ var mongoose = require('mongoose'),
 
     //DISPLAY SINGLE MEMBER'S INFO
     exports.info = (req, res) => {
-        //display specific member
         res.json(req.member);
     };
 
+    /*TODO: 
+    *       update user info once authorized
+    *
+    */
     //UPDATES SINGLE MEMBER'S INFO (ADMIN/THAT MEMBER)
     exports.update = (req, res) => {
         //check current user level/memberID
-        //if user level high enough or currentID is the memberID
-        //update information
-        
+        jwt.verify(req.token, 'super secret key', (err, authData) => {
+            if(err){
+                res.status(403);
+            }
+            else{
+                //ADMIN or THAT MEMBER
+                if(authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID){
+                    res.json('Authorized Member');
+                }
+                else{
+                    //res.status()
+                    res.json('Unathorized Member');
+                }
+            }
+        });
+
 
     };
 
-    //Might have to change this so it find the memberID instead
-    //of mongooses generated ID
+    //MIDDLEWARE - attatches member object to req based on member(path)
     exports.memberByID = function(req, res, next, id) {
         Member.findById(id).exec(function(err, member) {
           if(err) {
@@ -62,9 +95,36 @@ var mongoose = require('mongoose'),
         });
       };
 
+    //MIDDLEWARE - attatches member object to req based on registerID(path)
     exports.registerByID = (req, res, next, id) => {
-        //Find member with register string
-        Member.find
-        //add that register string to req body
+        Member.findOne({registerID: id}, (err, member) => {
+            if(err){
+                res.status(400).send(err);
+            }else{
+                req.member = member;
+                next();
+            }
+        });
+    };
 
+    //MIDDLEWARE - attatchhes token to the req object
+    exports.verifyToken = function(req, res, next){
+        //Token Format 
+        //Authorization: Bearer <access_token>
+
+        //Get Authorization Header Value
+        const bearerHeader = req.headers['authorization'];
+        //Check if Bearer is undefined
+        if (typeof bearerHeader !== 'undefined'){
+            //Extract Token
+            console.log('here')
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            next();
+
+        }
+        else{
+            res.json("Authorization Error")
+        }
     }
