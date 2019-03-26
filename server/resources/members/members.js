@@ -8,7 +8,8 @@ var Member = require('../members/schema'),
 
     require('dotenv').config();
 
-    //CREATES A MEMBER (ADMIN)    TODO: Check if member with email already exists
+    //CREATES A MEMBER (ADMIN)    TODO: Check if member with email already exists, check req for jwt and admin
+                                  //    auto generate a memberID 
     exports.create = (req,res) => {
       let email = req.body.email;
       let accessLevel = req.body.accessLevel;
@@ -175,7 +176,7 @@ var Member = require('../members/schema'),
                     message: 'Password is invalid!'
                   });
                 }
-                let token = jwt.sign({email: email},
+                let token = jwt.sign({member},
                   process.env.secret,
                   { expiresIn: '24h' // expires in 24 hours
                   }
