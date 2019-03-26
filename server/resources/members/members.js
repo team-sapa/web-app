@@ -1,45 +1,199 @@
-var mongoose = require('mongoose'),
-    Member = require('../members/schema');
-let jwt = require('jsonwebtoken');
+var Member = require('../members/schema'),
+    bcrypt = require('bcrypt'),
+    nodemailer = require('nodemailer'),
+    crypto = require('crypto'),
+    async = require('async'),
+    jwt = require('jsonwebtoken');
+    BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
-    //REGISTERS MEMBERS (ADMIN)
+    require('dotenv').config();
+
+    //CREATES A MEMBER (ADMIN)    TODO: Check if member with email already exists
     exports.create = (req,res) => {
-        console.log(req.body.email);
-        console.log("test");
-        res.json('nice');
-        
+      let email = req.body.email;
+      let accessLevel = req.body.accessLevel;
+      console.log(email);
+      console.log(accessLevel);
+
+      async.waterfall([
+          function (callback) {
+              // generate token
+              crypto.randomBytes(20, function (err, buf) {
+                  var token = buf.toString('hex');
+                  if (err) {
+                    res.json({
+                      success: false,
+                      message: err,
+                    });
+                  }
+                  console.log("Token Generated");
+                  callback(null, token);
+              });
+          },
+          function (token, callback) {
+              // create member with registrationToken
+              let member = new Member({
+                  password: token,
+                  email: email,
+                  level: accessLevel
+              });
+              member.save((err) => {
+                  if (err) {
+                      console.log(err);
+                      res.json({
+                        success: false,
+                        message: err,
+                      });
+                  }
+                  console.log("Member Created: " + member.email);
+                  callback(null, member, token);
+              });
+          },
+          function (member, token, callback) {
+              // send email with registrationToken url
+              if(member){
+                var smtpTrans = nodemailer.createTransport({
+                  service: 'Gmail',
+                  auth: {
+                      user: process.env.google_user,
+                      pass: process.env.google_pass
+                  }
+                });
+                var mailOptions = {
+                    to: member.email,
+                    from: 'UF SAPA',
+                    subject: 'Register for your UF SAPA account',
+                    text: 'Welcome to UF SAPA.\n\n' +
+                        'Please click on the following link to complete the registration process:\n\n' +
+                        'http://' + req.hostname + '/members/register/' + token + '\n\n'
+                };
+                smtpTrans.sendMail(mailOptions, function (err) {
+                    if (err) {
+                      res.json({
+                        success: false,
+                        message: err,
+                      });
+                    }
+                    console.log("Email Sent");
+                    callback(null);
+                });
+              }
+          }
+      ], function () {
+          console.log('Member successfully created.');
+          res.json({
+            success: true,
+            message: 'Member successfully created.',
+          });
+      });
+
     };
 
-    //MEMBER SET PASSWORD
+    //REGISTERS MEMBER USING EMAILED LINK
     exports.register = (req, res) => {
-    
-    };
+      let registerToken = req.params.registerToken;
+      let password = req.body.password;
 
-    /*TODO: 
-    *       Authenticate email/password
-    *       retrieve member object
-    */
-    //LOGS IN MEMBERS
+      async.waterfall([
+          function (callback) {
+              // find member with registrationToken
+              Member.findOne({ password: registerToken }, function (err, member, next) {
+                  if (!member) {
+                      console.log("Registration token is invalid.");
+                      res.end('Registration token is invalid.');
+                  }
+                  // update member
+                  bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
+                      .then(hash => {
+
+                          member.password = hash;
+
+                          member.save(function (err) {
+                              if (err) {
+                                res.json({
+                                  success: false,
+                                  message: err,
+                                });
+                              }
+                              console.log("Member Password Set");
+                              callback(null, member)
+                          });
+                      });
+              });
+          },
+          function (member, callback) {
+              // send verification email
+              var smtpTrans = nodemailer.createTransport({
+                  service: 'Gmail',
+                  auth: {
+                    user: process.env.google_user,
+                    pass: process.env.google_pass
+                  }
+              });
+              var mailOptions = {
+                  to: member.email,
+                  from: 'myemail',
+                  subject: 'Your UF SAPA Account is now complete!',
+                  text: 'Hello ' + member.email + ',\n\n' +
+                      'This is a confirmation that your UF SAPA Account has been created.\n\n' +
+                      'You can now log in at ' + 'http://' + req.hostname + '/login'
+              };
+              smtpTrans.sendMail(mailOptions, function (err) {
+                  if (err) {
+                      res.json({
+                        success: false,
+                        message: err,
+                      });
+                  }
+                  console.log("Email Sent");
+                  callback(null);
+              });
+          }
+      ], function () {
+          console.log('Member password successfully set.');
+          res.json({
+            success: true,
+            message: 'Member password successfully set.',
+          });
+      });
+  };
+
+    //LOGS IN MEMBERS   ->  Returns JWT on a successful login
     exports.login = (req, res) => {
-        //TESTING 
-        var member = {
-            email: "test@test.com",
-            password: "testpass",
-            userLevel: 2
-        };
+        let email = req.body.email;
+        let password = req.body.password;
 
-        //do stuff here
-        
-        //create jwt attach to response
-        jwt.sign({member}, 'super secret key', (err, token) => {
-            res.json({
-                token //client will have to store this in local storage
+        Member.find({ email: email })
+            .then(member => {
+                if (member)
+                    return bcrypt.compare(password, member[0].password);
             })
-        });
-        
+            .then(passwordMatch => {
+                if (!passwordMatch) {
+                  res.send(400).json({
+                    success: false,
+                    message: 'Password is invalid!'
+                  });
+                }
+                let token = jwt.sign({email: email},
+                  process.env.secret,
+                  { expiresIn: '24h' // expires in 24 hours
+                  }
+                );
+                // return the JWT token
+                res.json({
+                  success: true,
+                  message: 'Authentication successful!',
+                  token: token
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.end(err);
+            })
     };
 
-    //LIST ALL MEMBERS 
+    //LIST ALL MEMBERS
     exports.list = (req, res) => {
         Member.find({}, (err, member)=>{
             if(err){
@@ -80,6 +234,25 @@ let jwt = require('jsonwebtoken');
             }
         });
 
+
+        //if user level high enough or currentID is the memberID
+        //update information
+
+
+        /*
+            Verify JWT Token:
+
+            jwt.verify(token, process.env.secret, (err, decoded) => {
+              if (err) {
+                return res.json({
+                  success: false,
+                  message: 'Token is not valid'
+                });
+              } else {
+                //PROCEED
+              }
+            });
+        */
 
     };
 

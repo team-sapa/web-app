@@ -7,12 +7,15 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "async": "^2.6.2",
     "bcrypt": "^3.0.4",
     "body-parser": "^1.14.1",
+    "dotenv": "^7.0.0",
     "express": "^4.13.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^4.2.9",
     "morgan": "^1.6.1",
+    "nodemailer": "^6.0.0",
     "request": "^2.67.0"
   }
 }

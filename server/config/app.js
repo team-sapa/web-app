@@ -1,10 +1,10 @@
-var config = require('./config'),
-  express = require('./express');
+var express = require('./express');
 
+require('dotenv').config(); // to use env variables
 
 module.exports.start = function () {
   var app = express.init();
-  app.listen(config.port, function () {
-    console.log('App listening on port', config.port);
+  app.listen(process.env.port, function () {
+    console.log('App listening on port', process.env.port);
   });
 };

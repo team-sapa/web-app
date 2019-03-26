@@ -1,12 +1,16 @@
-var member = require('../members/members'), 
+var member = require('../members/members'),
 attendance = require('../attendance/attendance.js'),
-express = require('express'), 
+express = require('express'),
 router = express.Router();
 
 
 
 router.route('/register')
     .post(member.verifyToken, member.create);     //registers a member 
+    //.post(member.create);                        //registers a member
+
+router.route('/register/:registerToken')
+    .post(member.register);     //registers a member
 
 router.route('/register/:registerID')
     .patch(member.register);    //set password dont login redirect to login page
