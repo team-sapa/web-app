@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
 
     //DISPLAYS SINGLE EVENT'S INFO
     exports.info = (req, res) => {
-
+    
     };
 
     //UPDATE SINGLE EVENT'S INFO (ADMIN)

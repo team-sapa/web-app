@@ -8,7 +8,8 @@ var Member = require('../members/schema'),
 
     require('dotenv').config();
 
-    //CREATES A MEMBER (ADMIN)    TODO: Check if member with email already exists
+    //CREATES A MEMBER (ADMIN)    TODO: Check if member with email already exists, check req for jwt and admin
+                                  //    auto generate a memberID 
     exports.create = (req,res) => {
       let email = req.body.email;
       let accessLevel = req.body.accessLevel;
@@ -175,7 +176,7 @@ var Member = require('../members/schema'),
                     message: 'Password is invalid!'
                   });
                 }
-                let token = jwt.sign({email: email},
+                let token = jwt.sign({member},
                   process.env.secret,
                   { expiresIn: '24h' // expires in 24 hours
                   }
@@ -195,7 +196,6 @@ var Member = require('../members/schema'),
 
     //LIST ALL MEMBERS
     exports.list = (req, res) => {
-        //list all members
         Member.find({}, (err, member)=>{
             if(err){
                 console.log(err);
@@ -209,13 +209,33 @@ var Member = require('../members/schema'),
 
     //DISPLAY SINGLE MEMBER'S INFO
     exports.info = (req, res) => {
-        //display specific member
         res.json(req.member);
     };
 
+    /*TODO: 
+    *       update user info once authorized
+    *
+    */
     //UPDATES SINGLE MEMBER'S INFO (ADMIN/THAT MEMBER)
     exports.update = (req, res) => {
         //check current user level/memberID
+        jwt.verify(req.token, 'super secret key', (err, authData) => {
+            if(err){
+                res.status(403);
+            }
+            else{
+                //ADMIN or THAT MEMBER
+                if(authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID){
+                    res.json('Authorized Member');
+                }
+                else{
+                    //res.status()
+                    res.json('Unathorized Member');
+                }
+            }
+        });
+
+
         //if user level high enough or currentID is the memberID
         //update information
 
@@ -237,8 +257,7 @@ var Member = require('../members/schema'),
 
     };
 
-    //Might have to change this so it find the memberID instead
-    //of mongooses generated ID
+    //MIDDLEWARE - attatches member object to req based on member(path)
     exports.memberByID = function(req, res, next, id) {
         Member.findById(id).exec(function(err, member) {
           if(err) {
@@ -249,3 +268,37 @@ var Member = require('../members/schema'),
           }
         });
       };
+
+    //MIDDLEWARE - attatches member object to req based on registerID(path)
+    exports.registerByID = (req, res, next, id) => {
+        Member.findOne({registerID: id}, (err, member) => {
+            if(err){
+                res.status(400).send(err);
+            }else{
+                req.member = member;
+                next();
+            }
+        });
+    };
+
+    //MIDDLEWARE - attatchhes token to the req object
+    exports.verifyToken = function(req, res, next){
+        //Token Format 
+        //Authorization: Bearer <access_token>
+
+        //Get Authorization Header Value
+        const bearerHeader = req.headers['authorization'];
+        //Check if Bearer is undefined
+        if (typeof bearerHeader !== 'undefined'){
+            //Extract Token
+            console.log('here')
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            next();
+
+        }
+        else{
+            res.json("Authorization Error")
+        }
+    }
