@@ -1,0 +1,9 @@
+<!-- account.html -->
+<div class="jumbotron text-center" ng-controller="mainController">
+  <div ng-if="accessLevel == 0">
+    <h2>Access Denied</h2>
+  </div>
+  <div ng-if="accessLevel == 2 || accessLevel == 1">
+    <h2>My Account</h2>
+  </div>
+</div>

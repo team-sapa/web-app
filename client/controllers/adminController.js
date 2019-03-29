@@ -1,6 +1,10 @@
 angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
   function ($scope, Main) {
 
+    // check & set access level/auth token
+    $scope.accessLevel = 0;
+
+
     // create event
 
 

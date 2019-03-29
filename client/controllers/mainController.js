@@ -1,6 +1,8 @@
 angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
+    // check & set access level/auth token
+    $scope.accessLevel = 0;
 
 
     // update member info
