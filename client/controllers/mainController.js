@@ -1,22 +1,9 @@
-angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
+angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
-    // create event
 
 
-    // return filtered members based on points
-
-
-    // delete member
-
-
-    // delete event
-
-
-    // retrieve member's event list
-
-
-    // update member's attendance status
+    // update member info
 
 
     // return all members
@@ -45,6 +32,27 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
         console.log('Unable to create member:', error);
       });
     }
+
+    // register a member (member using registration link)
+    $scope.register = function (password) {
+      Main.register(password).then(function (response) {
+        if (response.data.success)
+          $scope.message = "You are now verified.";
+      }, function (error) {
+        console.log('Unable to register member:', error);
+      });
+    }
+
+    // login a member
+    $scope.login = function (auth) {
+      Main.login(auth).then(function (response) {
+        if (response.data.success)
+          $scope.message = "You are now verified.";
+      }, function (error) {
+        console.log('Unable to register member:', error);
+      });
+    }
+
 
   }
 ]);

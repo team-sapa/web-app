@@ -11,31 +11,43 @@ app.config(function ($routeProvider) {
     // route for the home page
     .when('/', {
       templateUrl: 'pages/members.html',
-      controller: 'membersController'
+      controller: 'mainController'
     })
 
     // route for the about page
     .when('/about', {
       templateUrl: 'pages/about.html',
-      controller: 'aboutController'
+      controller: 'mainController'
     })
 
     // route for the contact page
     .when('/contact', {
       templateUrl: 'pages/contact.html',
-      controller: 'contactController'
+      controller: 'mainController'
     })
 
     // route for the login page
     .when('/login', {
       templateUrl: 'pages/login.html',
-      controller: 'loginController'
+      controller: 'mainController'
     })
 
     // route for the admin page
     .when('/admin', {
       templateUrl: 'pages/admin.html',
       controller: 'adminController'
+    })
+
+    // route for the register page
+    .when('/register', {
+      templateUrl: 'pages/register.html',
+      controller: 'mainController'
+    })
+
+    // route for the profile page
+    .when('/profile', {
+      templateUrl: 'pages/profile.html',
+      controller: 'mainController'
     })
 
     // all other views

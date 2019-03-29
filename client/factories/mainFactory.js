@@ -6,9 +6,13 @@ angular.module('main', []).factory('Main', function ($http) {
       return $http.get('/members/');
     },
 
-    info: function () {
-      return $http.get('/members/:memberID');
+    info: function (id) {
+      return $http.get('/members/:memberID', id);
     },
+
+    // return filtered members based on points
+    // retrieve member's event list
+
 
 
 
@@ -21,9 +25,30 @@ angular.module('main', []).factory('Main', function ($http) {
       return $http.post('/members/register/:registerID', password);
     },
 
-    login: function (email, password) {
-      return $http.post('/members/login', email, password);
+    login: function (auth) {
+      console.log(auth.email);
+      console.log(auth.password);
+      return $http.post('/members/login', auth);
     }
+
+    // create event
+
+
+
+
+
+    // PATCH requests
+    // update member's attendance status
+    // update member info
+
+
+
+
+
+    // DELETE requests
+    // delete member
+    // delete event
+
 
   };
 

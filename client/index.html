@@ -14,11 +14,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- load js files -->
     <script src="app.js"></script>
-    <script type="text/javascript" src='controllers/membersController.js'></script>
-    <script type="text/javascript" src='controllers/aboutController.js'></script>
-    <script type="text/javascript" src='controllers/contactController.js'></script>
-    <script type="text/javascript" src='controllers/loginController.js'></script>
+    <script type="text/javascript" src='controllers/mainController.js'></script>
     <script type="text/javascript" src='controllers/adminController.js'></script>
     <script type="text/javascript" src='factories/mainFactory.js'></script>
   </head>
@@ -32,11 +31,11 @@
           <div class="navbar-header">
             <a class="navbar-brand" href="/">UF SAPA</a>
           </div>
-
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
             <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
             <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+            <li><a href="#login"><i class="fa fa-user"></i> Sign in</a></li>
           </ul>
         </div>
       </nav>
