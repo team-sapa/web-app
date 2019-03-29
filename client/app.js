@@ -45,6 +45,12 @@ app.config(function ($routeProvider) {
     })
 
     // route for the profile page
+    .when('/account', {
+      templateUrl: 'pages/account.html',
+      controller: 'mainController'
+    })
+
+    // route for the profile page
     .when('/profile', {
       templateUrl: 'pages/profile.html',
       controller: 'mainController'
