@@ -6,7 +6,14 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
 
 
     // create event
-
+      $scope.createEvent = function (newEvent) {
+          Main.createEvent(newEvent).then(function (response) {
+              console.log(response);
+              $scope.message = "Event created.";
+          }, function (error) {
+              console.log('Unable to create event:', error);
+          })
+      }
 
     // return filtered members based on points
 

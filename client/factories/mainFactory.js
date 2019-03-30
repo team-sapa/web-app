@@ -30,10 +30,12 @@ angular.module('main', []).factory('Main', function ($http) {
     login: function (auth) {
       console.log(auth);
       return $http.post('/members/login', auth);
-    }
+    },
 
-    // create event
-
+    createEvent: function (newEvent) {
+        console.log(newEvent);
+        return $http.post('/events', newEvent);
+      }
 
 
 
