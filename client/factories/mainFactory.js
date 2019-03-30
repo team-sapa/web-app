@@ -17,17 +17,18 @@ angular.module('main', []).factory('Main', function ($http) {
 
 
     // POST requests
-    create: function (email, accessLevel) {
-      return $http.post('/members/register', email, accessLevel);
+    create: function (newUser) {
+      console.log(newUser);
+      return $http.post('/members/register', newUser);
     },
 
-    register: function (password) {
-      return $http.post('/members/register/:registerID', password);
+    register: function (newUser) {
+      console.log(newUser);
+      return $http.post('/members' + newUser.registrationURL, newUser);
     },
 
     login: function (auth) {
-      console.log(auth.email);
-      console.log(auth.password);
+      console.log(auth);
       return $http.post('/members/login', auth);
     }
 

@@ -5,6 +5,14 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
     $scope.accessLevel = 0;
 
 
+    // retrieve all members on startup
+    Main.list().then(function (response) {
+      $scope.members = response.data;
+    }, function (error) {
+      console.log('Unable to retrieve members:', error);
+    });
+
+
     // update member info
 
 
@@ -29,27 +37,43 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
     // create a member (ADMIN)
     $scope.create = function (email, accessLevel) {
       Main.create(email, accessLevel).then(function (response) {
-        $scope.message = "Member created. Verification email sent.";
+        if (response.success)
+          $scope.message = "Member created. Verification email sent.";
+        else
+          $scope.message = "Error.";
       }, function (error) {
         console.log('Unable to create member:', error);
       });
     }
 
     // register a member (member using registration link)
-    $scope.register = function (password) {
-      Main.register(password).then(function (response) {
-        if (response.data.success)
-          $scope.message = "You are now verified.";
-      }, function (error) {
-        console.log('Unable to register member:', error);
-      });
+    $scope.register = function (newUser) {
+      if (newUser.password == newUser.confirmPassword) {
+        let regURL = window.location.hash;
+        regURL = regURL.replace('#', '');
+        newUser.registrationURL = regURL;
+        Main.register(newUser).then(function (response) {
+          console.log(response);
+          if (response.data.success)
+            $scope.message = "You are now verified.";
+          else
+            $scope.message = "Error.";
+        }, function (error) {
+          console.log('Unable to register member:', error);
+        });
+      }
+      else {
+        $scope.message = "Passwords do not match!";
+      }
+
     }
 
     // login a member
     $scope.login = function (auth) {
       Main.login(auth).then(function (response) {
-        if (response.data.success)
-          $scope.message = "You are now verified.";
+        console.log(response);
+        if (response.data.message)
+          $scope.loginmessage = response.data.message;
       }, function (error) {
         console.log('Unable to register member:', error);
       });
