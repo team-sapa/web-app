@@ -66,7 +66,7 @@ exports.create = (req, res) => {
           subject: 'Register for your UF SAPA account',
           text: 'Welcome to UF SAPA.\n\n' +
             'Please click on the following link to complete the registration process:\n\n' +
-            'http://' + req.hostname + '/members/register/' + token + '\n\n'
+            'http://' + req.hostname + '/register/' + token + '\n\n'
         };
         smtpTrans.sendMail(mailOptions, function (err) {
           if (err) {
@@ -166,33 +166,41 @@ exports.login = (req, res) => {
 
   Member.find({ email: email })
     .then(member => {
-      if (member)
-        return bcrypt.compare(password, member[0].password);
-    })
-    .then(passwordMatch => {
-      if (!passwordMatch) {
-        res.send(400).json({
+      if (member) {
+        bcrypt.compare(password, member[0].password)
+          .then(passwordMatch => {
+            if (!passwordMatch) {
+              res.json({
+                success: false,
+                message: 'Password is invalid!'
+              });
+            }
+            let token = jwt.sign({ member },
+              process.env.secret,
+              {
+                expiresIn: '24h' // expires in 24 hours
+              }
+            );
+            // return the JWT token
+            res.json({
+              success: true,
+              message: 'Authentication successful!',
+              token: token
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            res.end(err);
+          })
+      }
+      else {
+        res.json({
           success: false,
-          message: 'Password is invalid!'
+          message: 'Email is invalid!',
+          token: token
         });
       }
-      let token = jwt.sign({ member },
-        process.env.secret,
-        {
-          expiresIn: '24h' // expires in 24 hours
-        }
-      );
-      // return the JWT token
-      res.json({
-        success: true,
-        message: 'Authentication successful!',
-        token: token
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.end(err);
-    })
+    });
 };
 
 //LIST ALL MEMBERS

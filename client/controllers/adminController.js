@@ -2,7 +2,7 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
   function ($scope, Main) {
 
     // check & set access level/auth token
-    $scope.accessLevel = 0;
+    $scope.accessLevel = 2;
 
 
     // create event
@@ -42,8 +42,9 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
     }
 
     // create a member (ADMIN)
-    $scope.create = function (email, accessLevel) {
-      Main.create(email, accessLevel).then(function (response) {
+    $scope.create = function (newUser) {
+      Main.create(newUser).then(function (response) {
+        console.log(response);
         $scope.message = "Member created. Verification email sent.";
       }, function (error) {
         console.log('Unable to create member:', error);
