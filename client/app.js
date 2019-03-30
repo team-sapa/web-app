@@ -39,7 +39,7 @@ app.config(function ($routeProvider) {
     })
 
     // route for the register page
-    .when('/register', {
+    .when('/register/:registerToken', {
       templateUrl: 'pages/register.html',
       controller: 'mainController'
     })
