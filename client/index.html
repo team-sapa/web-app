@@ -1,30 +1,72 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html>
+
+<!-- define angular app -->
+<html ng-app="sapaApp">
 
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
     <link rel="stylesheet" href="styles/main.css">
+
+    <!-- load angular and angular route via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- load js files -->
+    <script src="app.js"></script>
+    <script type="text/javascript" src='controllers/mainController.js'></script>
+    <script type="text/javascript" src='controllers/adminController.js'></script>
+    <script type="text/javascript" src='factories/mainFactory.js'></script>
   </head>
 
-  <body id="container" ng-app="directoryApp">
-    <div class="container">
-      <h3>Software Engineering Project</h3>
-      <h4>Team Sapa</h4>
-      <ul>
-        <li>Kejti Lita</li>
-        <li>Nicholas Ruspantini</li>
-        <li>Johnny Li</li>
-        <li>Kristopher Wawrzyniak</li>
-        <li>Benjamin Anouge</li>
-        <li>Samuel Cuervo</li>
-      </ul>
+  <body ng-app="sapaApp">
+
+    <!-- HEADER AND NAVBAR -->
+    <header ng-controller="mainController">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">UF SAPA</a>
+          </div>
+          <div ng-if="accessLevel == 2">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
+              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+              <li><a href="#admin"><i class="fa fa-edit"></i> Admin</a></li>
+            </ul>
+          </div>
+          <div ng-if="accessLevel == 1">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
+              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+              <li><a href="#account"><i class="fa fa-user"></i> Account</a></li>
+            </ul>
+          </div>
+          <div ng-if="accessLevel == 0">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
+              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+              <li><a href="#login"><i class="fa fa-user"></i> Sign in</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div id="main">
+
+      <!-- this is where content will be injected -->
+      <div ng-view></div>
+
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-      integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
-      crossorigin="anonymous"></script>
-    <script src="https://code.angularjs.org/1.4.3/angular.js"></script>
-    <script src="js/app.js"></script>
+
   </body>
 
 </html>
