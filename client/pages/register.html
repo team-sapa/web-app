@@ -2,5 +2,15 @@
 <div class="jumbotron text-center">
 
   <h2>Register here</h2>
+  <div class="input-group mb-3">
+    <h3>Welcome {{user.email}}</h3>
+    <h6>Create password:</h6>
+    <input type="password" class="form-control" placeholder="password" ng-model="newUser.password">
+    <input type="password" class="form-control" placeholder="confirm password" ng-model="newUser.confirmPassword">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" ng-click="register(newUser)">Register</button>
+    </div>
+    {{message}}
+  </div>
 
 </div>
