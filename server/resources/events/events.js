@@ -1,12 +1,13 @@
 var mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
+    async = require('async'),
     Event = require('../events/schema');
 
     //LIST ALL EVENTS
     exports.list = (req, res) => {
         console.log("test1");
-        console.log(req);
-        res.json("nice1");
+        //console.log(req);
+        //res.json("nice1");
 
         //find all events
         Event.find(function (error, array) {
@@ -23,16 +24,16 @@ var mongoose = require('mongoose'),
     //CREATE NEW EVENT (ADMIN)
     exports.create = (req, res) => {
         console.log("test2");
-        res.json("nice2");
+        //res.json("nice2");
 
         //check permissions
-        jwt.verify(req.token, 'super secret key', (err, authData) => {
+        /*jwt.verify(req.token, 'super secret key', (err, authData) => {
             //if error or not admin
             if (err || authData.member.userLevel < 2) {
                 //send error
                 res.status(403);
             }
-        });
+        });*/
 
         //create event
         var event = new Event(req.body);
@@ -59,13 +60,13 @@ var mongoose = require('mongoose'),
     //UPDATE SINGLE EVENT'S INFO (ADMIN)
     exports.update = (req, res) => {
         //check permissions
-        jwt.verify(req.token, 'super secret key', (err, authData) => {
+        /*jwt.verify(req.token, 'super secret key', (err, authData) => {
             //if error or not admin
             if (err || authData.member.userLevel < 2) {
                 //send error
                 res.status(403);
             }
-        });
+        });*/
 
         //get event info
         var event = req.event;

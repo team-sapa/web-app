@@ -3,11 +3,11 @@ angular.module('main', []).factory('Main', function ($http) {
 
     // GET requests
     list: function () {
-      return $http.get('/members/');
+        return $http.get('/members/');
     },
 
     info: function (id) {
-      return $http.get('/members/:memberID', id);
+        return $http.get('/members/:memberID', id);
     },
 
     // return filtered members based on points
@@ -19,22 +19,22 @@ angular.module('main', []).factory('Main', function ($http) {
     // POST requests
     create: function (newUser) {
       console.log(newUser);
-      return $http.post('/members/register', newUser);
+        return $http.post('/members/register', newUser);
     },
 
     register: function (newUser) {
       console.log(newUser);
-      return $http.post('/members' + newUser.registrationURL, newUser);
+        return $http.post('/members' + newUser.registrationURL, newUser);
     },
 
     login: function (auth) {
       console.log(auth);
-      return $http.post('/members/login', auth);
+        return $http.post('/members/login', auth);
     },
 
     createEvent: function (newEvent) {
         console.log(newEvent);
-        return $http.post('/events', newEvent);
+        return $http.post('/events/', newEvent);
       }
 
 
