@@ -48,6 +48,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.get('/members/:memberID', id);
     },
 
+      listEvents: function () {
+          return $http.get('/events/');
+      },
+
     // return filtered members based on points
     // retrieve member's event list
 
@@ -81,6 +85,7 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     // PATCH requests
     // update member's attendance status
     // update member info
+    // update event info
 
 
 
