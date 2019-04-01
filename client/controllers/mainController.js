@@ -89,12 +89,20 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
           Main.setToken(response.data.token);
           Main.setUser(response.data.member[0]);
           window.location.href = '/#/account';
+          window.location.reload();
         }
       }, function (error) {
-        console.log('Unable to register member:', error);
+        console.log('Unable to login member:', error);
       });
     }
 
+    // logout a member
+    $scope.logout = function (auth) {
+      console.log("logging out");
+      Main.logout();
+      window.location.href = '/#/login';
+      window.location.reload();
+    }
 
   }
 ]);

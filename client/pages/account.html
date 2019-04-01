@@ -1,5 +1,5 @@
 <!-- account.html ~ Dashboard: Where members can route to edit their own profile, view points, events etc -->
-<div class="jumbotron text-center" ng-controller="mainController">
+<div class="jumbotron text-center">
   <div ng-if="accessLevel == 0">
     <h2>Access Denied</h2>
   </div>
@@ -20,6 +20,9 @@
 
     <a>View Events</a>
 
+    <div>
+      <button class="btn btn-outline-secondary" type="button" ng-click="logout()">Logout</button>
+    </div>
 
 
   </div>
