@@ -227,6 +227,7 @@ var Member = require('../members/schema'),
                 //ADMIN or THAT MEMBER
                 if(authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID){
                     res.json('Authorized Member');
+                    //update member info
                 }
                 else{
                     //res.status()
@@ -271,7 +272,7 @@ var Member = require('../members/schema'),
 
     //MIDDLEWARE - attatches member object to req based on registerID(path)
     exports.registerByID = (req, res, next, id) => {
-        Member.findOne({registerID: id}, (err, member) => {
+        Member.findOne({password: id}, (err, member) => {
             if(err){
                 res.status(400).send(err);
             }else{
