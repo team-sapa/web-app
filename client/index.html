@@ -30,17 +30,10 @@
           <div class="navbar-header">
             <a class="navbar-brand" href="/">UF SAPA</a>
           </div>
-          <div ng-if="accessLevel == 2">
+          <div ng-if="accessLevel == 1 || accessLevel == 2">
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
-              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
-              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-              <li><a href="#admin"><i class="fa fa-edit"></i> Admin</a></li>
-            </ul>
-          </div>
-          <div ng-if="accessLevel == 1">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+              <li><a href="#events"><i class="fa fa-calendar"></i> Events</a></li>
               <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
               <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
               <li><a href="#account"><i class="fa fa-user"></i> Account</a></li>

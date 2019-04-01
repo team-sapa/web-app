@@ -2,7 +2,18 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
     // check & set access level/auth token
-    $scope.accessLevel = 0;
+    if (Main.isLoggedIn()) {
+      var token = JSON.parse(Main.getToken());
+      $scope.token = token
+      var user = JSON.parse(Main.getUser());
+      $scope.user = user;
+      $scope.accessLevel = user.level;
+    }
+    else {
+      $scope.accessLevel = 0;
+      console.log("not authenticated");
+    }
+
 
 
     // retrieve all members on startup
@@ -54,8 +65,11 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
         newUser.registrationURL = regURL;
         Main.register(newUser).then(function (response) {
           console.log(response);
-          if (response.data.success)
+          if (response.data.success) {
             $scope.message = "You are now verified.";
+            window.location.href = '/#/login';
+            window.location.reload();
+          }
           else
             $scope.message = "Error.";
         }, function (error) {
@@ -74,11 +88,24 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
         console.log(response);
         if (response.data.message)
           $scope.loginmessage = response.data.message;
+        if (response.data.success) {
+          Main.setToken(response.data.token);
+          Main.setUser(response.data.member[0]);
+          window.location.href = '/#/account';
+          window.location.reload();
+        }
       }, function (error) {
-        console.log('Unable to register member:', error);
+        console.log('Unable to login member:', error);
       });
     }
 
+    // logout a member
+    $scope.logout = function (auth) {
+      console.log("logging out");
+      Main.logout();
+      window.location.href = '/#/login';
+      window.location.reload();
+    }
 
   }
 ]);
