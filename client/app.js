@@ -62,6 +62,12 @@ app.config(function ($routeProvider) {
       controller: 'mainController'
     })
 
+    // route for the events page (members/admins)
+    .when('/events', {
+      templateUrl: 'pages/events.html',
+      controller: 'mainController'
+    })
+
     // all other views
     .otherwise({
       redirectTo: '/'

@@ -66,7 +66,7 @@ exports.create = (req, res) => {
           subject: 'Register for your UF SAPA account',
           text: 'Welcome to UF SAPA.\n\n' +
             'Please click on the following link to complete the registration process:\n\n' +
-            'http://' + req.hostname + '/register/' + token + '\n\n'
+            'http://' + req.hostname + '/#/register/' + token + '\n\n'
         };
         smtpTrans.sendMail(mailOptions, function (err) {
           if (err) {
@@ -137,7 +137,7 @@ exports.register = (req, res) => {
         subject: 'Your UF SAPA Account is now complete!',
         text: 'Hello ' + member.email + ',\n\n' +
           'This is a confirmation that your UF SAPA Account has been created.\n\n' +
-          'You can now log in at ' + 'http://' + req.hostname + '/login'
+          'You can now log in at ' + 'http://' + req.hostname + '/#/login'
       };
       smtpTrans.sendMail(mailOptions, function (err) {
         if (err) {
