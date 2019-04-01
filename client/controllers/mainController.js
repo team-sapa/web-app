@@ -65,8 +65,11 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
         newUser.registrationURL = regURL;
         Main.register(newUser).then(function (response) {
           console.log(response);
-          if (response.data.success)
+          if (response.data.success) {
             $scope.message = "You are now verified.";
+            window.location.href = '/#/login';
+            window.location.reload();
+          }
           else
             $scope.message = "Error.";
         }, function (error) {

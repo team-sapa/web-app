@@ -10,6 +10,10 @@
 
     <h3>{{user.email}}</h3>
 
+    <div ng-if="accessLevel == 2">
+      <a href="/#/admin">Admin Page</a>
+    </div>
+
     <a href="/#/editProfile">Edit Profile</a>
 
     <h3>{{user.points}}</h3>
