@@ -1,4 +1,4 @@
-<!-- account.html ~ Where members can edit their own profile, view points, etc -->
+<!-- account.html ~ Dashboard: Where members can route to edit their own profile, view points, events etc -->
 <div class="jumbotron text-center" ng-controller="mainController">
   <div ng-if="accessLevel == 0">
     <h2>Access Denied</h2>
@@ -10,7 +10,7 @@
 
     <h3>{{user.email}}</h3>
 
-    <a>Edit Profile</a>
+    <a href="/#/editProfile">Edit Profile</a>
 
     <h3>{{user.points}}</h3>
 
