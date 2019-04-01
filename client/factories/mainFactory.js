@@ -22,9 +22,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     },
 
     // log out (delete token + user)
-    logOut: function () {
+    logout: function () {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      console.log("logged out");
     },
 
     // check if currently logged in
