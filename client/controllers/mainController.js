@@ -2,7 +2,18 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
     // check & set access level/auth token
-    $scope.accessLevel = 0;
+    if (Main.isLoggedIn()) {
+      var token = JSON.parse(Main.getToken());
+      $scope.token = token
+      var user = JSON.parse(Main.getUser());
+      $scope.user = user;
+      $scope.accessLevel = user.level;
+    }
+    else {
+      $scope.accessLevel = 0;
+      console.log("not authenticated");
+    }
+
 
 
     // retrieve all members on startup
@@ -74,6 +85,11 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
         console.log(response);
         if (response.data.message)
           $scope.loginmessage = response.data.message;
+        if (response.data.success) {
+          Main.setToken(response.data.token);
+          Main.setUser(response.data.member[0]);
+          window.location.href = '/#/account';
+        }
       }, function (error) {
         console.log('Unable to register member:', error);
       });

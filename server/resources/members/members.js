@@ -185,7 +185,8 @@ exports.login = (req, res) => {
             res.json({
               success: true,
               message: 'Authentication successful!',
-              token: token
+              token: token,
+              member: member
             });
           })
           .catch(err => {
