@@ -1,0 +1,24 @@
+﻿<!-- events.html -->
+<div class="jumbotron text-center" ng-controller="eventController">
+    <h2>Event Page</h2>
+    <div class="input-group" id="searchBar">
+        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search"></span></span>
+        <input type="text" class="form-control" placeholder="Search" ng-model="query">
+    </div>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Info</th>
+            <th>Type</th>
+            <th>Points</th>
+        </tr>
+        <tr ng-repeat="event in events | filter: query">
+            <td>{{event.name}}</td>
+            <td>{{event.date}}</td>
+            <td>{{event.info}}</td>
+            <td>{{event.type}}</td>
+            <td>{{event.points}}</td>
+        </tr>
+    </table>
+</div>
