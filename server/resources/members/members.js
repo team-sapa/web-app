@@ -237,6 +237,19 @@ exports.update = (req, res) => {
       //ADMIN or THAT MEMBER
       if (authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID) {
         res.json('Authorized Member');
+        //~~~~~~UPDATE THE INFO HERE~~~~~~~
+        var member = req.member;
+        var body = req.body;
+        var id = req.params.memberID;
+        Member.findByIdAndUpdate(id, body, {new: true}, function(err, update){
+          if (err){
+            console.log(err);
+            res.status(404).send(err);
+          }
+          else {
+           res.json(update);
+          }
+        });
       }
       else {
         //res.status()
