@@ -1366,6 +1366,11 @@ a.accordion-toggle i {
     padding: 0;
 }
 
+#UserName {
+    font-weight: bold;
+    padding: 0;
+}
+
 
 /* Start: Recommended Isotope styles */
 
