@@ -1,6 +1,19 @@
 angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
+    $scope.friends = [
+      {name:'John', image: "../images/UserDefault.png"},
+      {name:'Jessie', image: "../images/UserDefault1.png"},
+      {name:'Johanna', image: "../images/UserDefault2.png"},
+      {name:'Joy', image: "../images/UserDefault.png"},
+      {name:'Mary', image: "../images/UserDefault1.png"},
+      {name:'Peter', image: "../images/UserDefault2.png"},
+      {name:'Sebastian', image: "../images/UserDefault.png"},
+      {name:'Erika', image: "../images/UserDefault1.png"},
+      {name:'Patrick', image: "../images/UserDefault2.png"},
+      {name:'Samantha', image: "../images/UserDefault.png"}
+    ];
+
     // check & set access level/auth token
     if (Main.isLoggedIn()) {
       var token = JSON.parse(Main.getToken());
