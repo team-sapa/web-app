@@ -1,18 +1,25 @@
 angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
   function ($scope, Main) {
 
+
+
     $scope.friends = [
-      {name:'John', image: "../images/UserDefault.png"},
-      {name:'Jessie', image: "../images/UserDefault1.png"},
-      {name:'Johanna', image: "../images/UserDefault2.png"},
-      {name:'Joy', image: "../images/UserDefault.png"},
-      {name:'Mary', image: "../images/UserDefault1.png"},
-      {name:'Peter', image: "../images/UserDefault2.png"},
-      {name:'Sebastian', image: "../images/UserDefault.png"},
-      {name:'Erika', image: "../images/UserDefault1.png"},
-      {name:'Patrick', image: "../images/UserDefault2.png"},
-      {name:'Samantha', image: "../images/UserDefault.png"}
+      { name: 'John', image: "../images/UserDefault.png" },
+      { name: 'Jessie', image: "../images/UserDefault1.png" },
+      { name: 'Johanna', image: "../images/UserDefault2.png" },
+      { name: 'Joy', image: "../images/UserDefault.png" },
+      { name: 'Mary', image: "../images/UserDefault1.png" },
+      { name: 'Peter', image: "../images/UserDefault2.png" },
+      { name: 'Sebastian', image: "../images/UserDefault.png" },
+      { name: 'Erika', image: "../images/UserDefault1.png" },
+      { name: 'Patrick', image: "../images/UserDefault2.png" },
+      { name: 'Samantha', image: "../images/UserDefault.png" }
     ];
+
+
+
+
+
 
     // check & set access level/auth token
     if (Main.isLoggedIn()) {
@@ -38,7 +45,14 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
 
 
     // update member info
-
+    $scope.update = function (updatedMember) {
+      updatedMember.token = $scope.token;
+      Main.update(updatedMember).then(function (response) {
+        $scope.member = response.data;
+      }, function (error) {
+        console.log('Unable to retrieve member:', error);
+      });
+    }
 
     // return all members
     $scope.list = function () {

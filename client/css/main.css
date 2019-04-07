@@ -8,6 +8,10 @@
     background-color: #fff;
 }
 
+form label{
+    color: #4e4e4e;
+}
+
 body {
     background: #fff;
     font-family: 'Open Sans', sans-serif;

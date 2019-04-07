@@ -48,9 +48,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.get('/members/:memberID', id);
     },
 
-      listEvents: function () {
-          return $http.get('/events/');
-      },
+    listEvents: function () {
+      return $http.get('/events/');
+    },
 
     // return filtered members based on points
     // retrieve member's event list
@@ -77,12 +77,17 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     createEvent: function (newEvent) {
       console.log(newEvent);
       return $http.post('/events/', newEvent);
-    }
+    },
 
 
 
 
     // PATCH requests
+    update: function (updatedMember) {
+      console.log(updatedMember);
+      return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
+    }
+
     // update member's attendance status
     // update member info
     // update event info

@@ -1,5 +1,5 @@
 <!-- editProfile.html ~ Where members can edit their own profile -->
-<div class="jumbotron text-center" ng-controller="mainController">
+<div class="jumbotron text-left" ng-controller="mainController">
   <div ng-if="accessLevel == 0">
     <h2>Access Denied</h2>
   </div>
@@ -8,126 +8,105 @@
 
     <form>
       <div class="form-group row">
-        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="firstName" placeholder="Enter First Name"
+            ng-model="user.contactInfo.firstName">
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="email" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="email" placeholder="Enter Email">
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name"
+            ng-model="user.contactInfo.lastName">
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="phone" class="col-sm-2 col-form-label">Phone Number</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number">
+        <div class="col-sm-5">
+          <input type=" text" class="form-control" id="email" placeholder="Enter Email" ng-model="user.email">
         </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="program" class="col-sm-2 col-form-label">Program</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="program" placeholder="Enter Program">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="country" class="col-sm-2 col-form-label">Country</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="country" placeholder="Enter Country">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="major1" class="col-sm-2 col-form-label">Major 1</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="major1" placeholder="Enter First Major">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="major2" class="col-sm-2 col-form-label">Major 2</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="major2" placeholder="Enter Second Major">
-        </div>
-      </div>
-      
-      <div class="form-group row">
-        <label for="major3" class="col-sm-2 col-form-label">Major 3</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="major3" placeholder="Enter Third Major">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="minor1" class="col-sm-2 col-form-label">Minor 1</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="minor1" placeholder="Enter First Minor">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="minor2" class="col-sm-2 col-form-label">Minor 2</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="minor2" placeholder="Enter Second Minor">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="officeHours" class="col-sm-2 col-form-label">Office Hours</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="officeHours" placeholder="Enter Office Hours">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="question1" class="col-sm-2 col-form-label">Question 1 placeholder</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="question1" placeholder="Enter Answer">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="question2" class="col-sm-2 col-form-label">Question 2 placeholder</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="question2" placeholder="Enter Answer">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="question3" class="col-sm-2 col-form-label">Question 3 placeholder</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="question3" placeholder="Enter Answer">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="question4" class="col-sm-2 col-form-label">Question 4 placeholder</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="question4" placeholder="Enter Answer">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="question5" class="col-sm-2 col-form-label">Question 5 placeholder</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="question5" placeholder="Enter Answer">
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number"
+            ng-model="user.contactInfo.phone">
         </div>
       </div>
 
       <div class="form-group row">
         <div class="col-sm-10">
-          <button type="submit" class="btn btn-primary">Confirm Changes</button>
+          <input type="text" class="form-control" id="program" placeholder="Enter Program"
+            ng-model="user.contactInfo.program">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="major1" placeholder="Enter Major"
+            ng-model="user.contactInfo.major">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="minor1" placeholder="Enter Minor"
+            ng-model="user.contactInfo.minor">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="officeHours" placeholder="Enter Office Hours"
+            ng-model="user.bioInfo.officeHours">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="custom-file">
+          <label class="custom-file-label" for="inputGroupFile04">Choose profile image</label>
+          <input type="file" class="custom-file-input" id="inputGroupFile04" ng-model="user.bioInfo.profileimage">
+        </div>
+      </div>
+
+      <h4>What did you study and why?</h4>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="question1" placeholder="Enter Answer"
+            ng-model="user.bioInfo.answer1">
+        </div>
+      </div>
+
+      <h4>Where else have you traveled (2+ weeks)?</h4>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="question1" placeholder="Enter Answer"
+            ng-model="user.bioInfo.answer2">
+        </div>
+      </div>
+
+      <h4>What was one of the biggest challenges you faced while
+        abroad?</h4>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="question1" placeholder="Enter Answer"
+            ng-model="user.bioInfo.answer3">
+        </div>
+      </div>
+
+      <h4>Do you have any advice for students looking to study abroad?</h4>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="question1" placeholder="Enter Answer"
+            ng-model="user.bioInfo.answer4">
+        </div>
+      </div>
+
+      <h4>What was an interesting experience you had while abroad?</h4>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="question1" placeholder="Enter Answer"
+            ng-model="user.bioInfo.answer5">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary" ng-click="update(user)">Confirm Changes</button>
         </div>
       </div>
     </form>

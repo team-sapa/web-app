@@ -229,31 +229,36 @@ exports.info = (req, res) => {
 //UPDATES SINGLE MEMBER'S INFO (ADMIN/THAT MEMBER)
 exports.update = (req, res) => {
   //check current user level/memberID
-  jwt.verify(req.token, 'super secret key', (err, authData) => {
+  jwt.verify(req.body.token, process.env.secret, (err, authData) => {
     if (err) {
+      console.log(err);
       res.status(403);
     }
     else {
       //ADMIN or THAT MEMBER
       if (authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID) {
-        res.json('Authorized Member');
+        console.log("Authorized Member");
         //~~~~~~UPDATE THE INFO HERE~~~~~~~
-        var member = req.member;
         var body = req.body;
         var id = req.params.memberID;
-        Member.findByIdAndUpdate(id, body, {new: true}, function(err, update){
-          if (err){
+        Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+          if (err) {
             console.log(err);
             res.status(404).send(err);
           }
           else {
-           res.json(update);
+            console.log(member);
+            res.json({
+              success: true,
+              message: 'Member updated',
+              member: member
+            });
           }
         });
       }
       else {
         //res.status()
-        res.json('Unathorized Member');
+        res.json('Unauthorized Member');
       }
     }
   });
