@@ -134,5 +134,34 @@ angular.module('sapaApp').controller('mainController', ['$scope', 'Main',
       window.location.reload();
     }
 
+
+
+    // EDIT PROFILE
+    if ($scope.user) {
+      if ($scope.user.contactInfo) {
+        if ($scope.user.contactInfo.program)
+          $scope.user.contactInfo.program.push('');
+        if ($scope.user.contactInfo.major)
+          $scope.user.contactInfo.major.push('');
+        if ($scope.user.contactInfo.minor)
+          $scope.user.contactInfo.minor.push('');
+      }
+    }
+    // add program
+    $scope.addProgram = function () {
+      $scope.user.contactInfo.program.push('');
+    }
+    // add major
+    $scope.addMajor = function () {
+      $scope.user.contactInfo.major.push('');
+    }
+    // add minor
+    $scope.addMinor = function () {
+      $scope.user.contactInfo.minor.push('');
+    }
+
+
+
+
   }
 ]);
