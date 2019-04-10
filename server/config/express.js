@@ -10,7 +10,7 @@ var path = require('path'),
   memberRouter = require('../resources/members/routes'),
   eventRouter = require('../resources/events/routes');
 
-  require('dotenv').config(); // to use env variables
+require('dotenv').config(); // to use env variables
 
 
 module.exports.init = function () {
@@ -31,7 +31,7 @@ module.exports.init = function () {
   app.use(morgan('dev'));
 
   //body parsing middleware
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: '50mb' }));
 
   //Serve static files
   app.use('/', express.static('client'));

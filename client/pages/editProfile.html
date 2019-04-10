@@ -123,8 +123,10 @@
 
       <div class="input-group">
         <div class="custom-file">
-          <label class="custom-file-label" for="inputGroupFile04">Choose profile image</label>
-          <input type="file" class="custom-file-input" id="inputGroupFile04" ng-model="user.bioInfo.profileimage">
+          <label class="custom-file-label">Choose profile image</label>
+          <input type="file" accept="image/*" ng-model="file.data" file-select="data" file-loaded="myLoaded()"
+            file-error="myError($error)" file-progress="myProgress($total,$loaded)" />
+          <img ng-src="{{image.src}}" height=" 200" alt="Image Preview">
         </div>
       </div>
 

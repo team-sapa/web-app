@@ -3,7 +3,8 @@ var Member = require('../members/schema'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
   async = require('async'),
-  jwt = require('jsonwebtoken');
+  fs = require('fs');
+jwt = require('jsonwebtoken');
 BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
 require('dotenv').config();
@@ -240,14 +241,18 @@ exports.update = (req, res) => {
         console.log("Authorized Member");
         //~~~~~~UPDATE THE INFO HERE~~~~~~~
         var body = req.body;
+        console.log(body);
         var id = req.params.memberID;
         Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
           if (err) {
-            console.log(err);
-            res.status(404).send(err);
+            console.log(err.name);
+            console.log(err.code);
+            //console.log(err);
+            res.status(404);
           }
           else {
-            console.log(member);
+            //console.log(member);
+            console.log("Member updated.");
             res.json({
               success: true,
               message: 'Member updated',

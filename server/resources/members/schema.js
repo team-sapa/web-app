@@ -22,11 +22,14 @@ var memberSchema = new Schema({
         program: [String],
         major: [String],
         minor: [String],
+        profileImage: {
+            data: Buffer,
+            contentType: String
+        }
     },
 
     //Biographical Information
     bioInfo: {
-        profileImage: String,
         officeHours: String,
         question1: String,
         question2: String,
