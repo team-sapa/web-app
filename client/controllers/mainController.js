@@ -179,9 +179,7 @@ angular.module('sapaApp')
           ctrl.$setViewValue(fileReader.result);
 
           buffer = new Array(fileReader.result);
-          console.log(buffer);
           scope.$parent.image.data = buffer;
-          scope.$parent.image.src = fileReader.result;
 
           if ('fileLoaded' in attr) {
             scope.$eval(attr['fileLoaded']);
@@ -212,7 +210,6 @@ angular.module('sapaApp')
             fileReader.readAsText(fileName);
           } else if (fileType === 'data') {
             fileReader.readAsArrayBuffer(fileName);
-            //fileReader.readAsDataURL(fileName);
           }
         });
       }
