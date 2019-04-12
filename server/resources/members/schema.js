@@ -5,26 +5,27 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var memberSchema = new Schema({
     //Login Information
 
-        userID: ObjectId, //For linking to attendance and events
-        email: {type: String, index: {required: true, unique: true, dropDups: true}},
-        password: {type: String, required: true},
-        level: Number, //USER LEVEL: 0 - MEMBER 1 - ADMIN 2 - SUPERUSER -- check before routing function
-        registerID: String,
-    
+    userID: ObjectId, //For linking to attendance and events
+    email: { type: String, index: { required: true, unique: true, dropDups: true } },
+    password: { type: String, required: true },
+    level: Number, //USER LEVEL: 0 - MEMBER 1 - ADMIN 2 - SUPERUSER -- check before routing function
+    registerID: String,
+
     //Contact Information
     contactInfo: {
         firstName: String,
         lastName: String,
         birthdate: String,
         active: Boolean,
-        email: String, 
+        email: String,
         phone: String,
-        program: String,
-        country: String,
-        major1: String,
-        major2: String,
-        minor1: String,
-        minor2: String,
+        program: [String],
+        major: [String],
+        minor: [String],
+        profileImage: {
+            data: Buffer,
+            contentType: String
+        }
     },
 
     //Biographical Information
@@ -38,8 +39,8 @@ var memberSchema = new Schema({
     },
 
     //Point Information
-    points:{
-        total: Number 
+    points: {
+        total: Number
     }
 });
 

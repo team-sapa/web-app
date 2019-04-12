@@ -8,6 +8,14 @@
     background-color: #fff;
 }
 
+form label{
+    color: #4e4e4e;
+}
+
+.form-button{
+    margin-bottom: 25px;
+}
+
 body {
     background: #fff;
     font-family: 'Open Sans', sans-serif;
