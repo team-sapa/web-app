@@ -1,6 +1,6 @@
 angular.module('sapaApp')
-  .controller('mainController', ['$scope', 'Main',
-    function ($scope, Main) {
+  .controller('mainController', ['$scope', '$location', '$routeParams', 'Main',
+    function ($scope, $location, $routeParams, Main) {
 
 
 
@@ -74,13 +74,19 @@ angular.module('sapaApp')
       }
 
       // return single member (by id)
-      $scope.info = function (id) {
-        Main.info(id).then(function (response) {
+      let id = $routeParams.memberID;
+      if (id) {
+        console.log(id);
+        let member = { id: id };
+        Main.info(member).then(function (response) {
           $scope.member = response.data;
+          console.log($scope.member);
         }, function (error) {
           console.log('Unable to retrieve member:', error);
         });
       }
+
+
 
       // create a member (ADMIN)
       $scope.create = function (email, accessLevel) {

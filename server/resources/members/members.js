@@ -220,7 +220,19 @@ exports.list = (req, res) => {
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
-  res.json(req.member);
+  let id = req.body.id;
+  console.log("ID: " + id);
+  Member.findById(id, (err, member) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+    else {
+      console.log(member);
+      res.json(member);
+    }
+
+  });
 };
 
 /*TODO:
