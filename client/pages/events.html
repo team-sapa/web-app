@@ -21,4 +21,18 @@
             <td>{{event.points}}</td>
         </tr>
     </table>
+    <div class="card-deck">
+        <div class="card bg-light" ng-repeat="event in events | filter: query">
+            <div class="card-header">
+                <h2 class="card-title">{{event.name}}</h2>
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">{{event.date2}}</p>
+                <p class="card-text">{{event.points}} Point(s)</p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="card-link">More Info</a>
+            </div>
+        </div>
+    </div>
 </div>
