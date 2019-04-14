@@ -6,6 +6,9 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
 
         Main.listEvents().then(function (response) {
             $scope.events = response.data;
+            $scope.events.forEach(function (event) {
+                event.date2 = event.date.substring(0, 10);
+            })
         }, function (error) {
             console.log('Unable to retrieve events:', error);
         });

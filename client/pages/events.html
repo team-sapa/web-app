@@ -22,27 +22,16 @@
         </tr>
     </table>
     <div class="card-deck">
-        <div class="card bg-primary">
-            <div class="card-body text-center">
-                <p class="card-text">Some text inside the first card</p>
-                <p class="card-text">Some more text to increase the height</p>
-                <p class="card-text">Some more text to increase the height</p>
-                <p class="card-text">Some more text to increase the height</p>
+        <div class="card bg-light" ng-repeat="event in events | filter: query">
+            <div class="card-header">
+                <h2 class="card-title">{{event.name}}</h2>
             </div>
-        </div>
-        <div class="card bg-warning">
             <div class="card-body text-center">
-                <p class="card-text">Some text inside the second card</p>
+                <p class="card-text">{{event.date2}}</p>
+                <p class="card-text">{{event.points}} Point(s)</p>
             </div>
-        </div>
-        <div class="card bg-success">
-            <div class="card-body text-center">
-                <p class="card-text">Some text inside the third card</p>
-            </div>
-        </div>
-        <div class="card bg-danger">
-            <div class="card-body text-center">
-                <p class="card-text">Some text inside the fourth card</p>
+            <div class="card-footer">
+                <a href="#" class="card-link">More Info</a>
             </div>
         </div>
     </div>
