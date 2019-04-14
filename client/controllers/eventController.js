@@ -1,6 +1,7 @@
 angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
     function ($scope, Main) {
-        
+        $scope.cardsPerRow = 8;
+
         // check & set access level/auth token
         if (Main.isLoggedIn()) {
             var token = JSON.parse(Main.getToken());
@@ -16,9 +17,18 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
 
         function reList(response) {
             $scope.events = response.data;
+            $scope.events2D = [];
+
+            for (var i = 0; i < $scope.events.length; ++i) {
+                if (i % 8 == 0) {
+                    $scope.events2D.push([]);
+                }
+
+                $scope.events2D[Math.floor(i / 8)].push($scope.events[i]);
+            }
 
             $scope.events.forEach(function (event) {
-                event.date2 = new Date(event.date.substring(0, 4), event.date.substring(5, 7), event.date.substring(8, 10));
+                event.date2 = new Date(event.date.substring(0, 4), event.date.substring(5, 7) - 1, event.date.substring(8, 10));
             })
 
             $scope.events.sort(function compareEvents(a, b) {
@@ -53,9 +63,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
 
         // return all events
         $scope.list = function () {
-            Main.listEvents().then(function (response) {
-                $scope.events = response.data;
-            }, function (error) {
+            Main.listEvents().then(reList, function (error) {
                 console.log('Unable to retrieve events:', error);
             });
         }
