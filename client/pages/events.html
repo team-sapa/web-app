@@ -15,11 +15,13 @@
         </div>
     </div>
     <div class="input-group" id="searchBar">
-        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search"></span></span>
-        <input type="text" class="form-control" placeholder="Search" ng-model="query">
+        <span class="input-group-addon" id="sizing-addon1">
+            <button ng-click="filter()" class="glyphicon glyphicon-search"></button>
+        </span>
+        <input type="text" class="form-control" placeholder="Search" ng-model="query" ng-change="filter()">
     </div>
-    <div class="card-deck" ng-repeat="array in events2D | filter: query">
-        <div class="card bg-light" ng-repeat="event in array | filter: query">
+    <div class="card-deck" ng-repeat="array in events2D">
+        <div class="card bg-light" ng-repeat="event in array">
             <div class="card-header">
                 <h2 class="card-title">{{event.name}}</h2>
             </div>
