@@ -1,27 +1,27 @@
 ﻿<!-- events.html -->
 <div class="jumbotron text-center" ng-controller="eventController">
     <h2>Event Page</h2>
-    <div>
-        <div class="input-group mb-3" ng-if="accessLevel == 2">
-            <label>Create a new Event</label>
-            <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
-            <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
-            <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
-            <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
-            <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
-            <div class="input-group-append">
-                <button class="btn btn-light" type="button" ng-click="createEvent(newEvent)">
-                    Add Event
-                </button>
-            </div>
+    <div class="input-group mb-3" ng-if="accessLevel == 2">
+        <label>Create a new Event</label>
+        <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
+        <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
+        <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
+        <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
+        <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
+        <div class="input-group-append">
+            <button class="btn btn-light" type="button" ng-click="createEvent(newEvent)">
+                Add Event
+            </button>
         </div>
     </div>
     <div class="input-group" id="searchBar">
-        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search"></span></span>
-        <input type="text" class="form-control" placeholder="Search" ng-model="query">
+        <span class="input-group-addon" id="sizing-addon1">
+            <button ng-click="filter()" class="glyphicon glyphicon-search"></button>
+        </span>
+        <input type="text" class="form-control" placeholder="Search" ng-model="query" ng-change="filter()">
     </div>
-    <div class="card-deck">
-        <div class="card bg-light" ng-repeat="event in events | filter: query">
+    <div class="card-deck" ng-repeat="array in events2D">
+        <div class="card bg-light" ng-repeat="event in array">
             <div class="card-header">
                 <h2 class="card-title">{{event.name}}</h2>
             </div>
