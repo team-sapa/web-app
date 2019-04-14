@@ -18,7 +18,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             $scope.events = response.data;
 
             $scope.events.forEach(function (event) {
-                event.date2 = new Date(event.date);
+                event.date2 = new Date(event.date.substring(0, 4), event.date.substring(5, 7), event.date.substring(8, 10));
             })
 
             $scope.events.sort(function compareEvents(a, b) {
