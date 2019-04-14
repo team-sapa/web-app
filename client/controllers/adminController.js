@@ -14,24 +14,10 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
       console.log("not authenticated");
     }
 
-
-    // create event
-    $scope.createEvent = function (newEvent) {
-      Main.createEvent(newEvent).then(function (response) {
-        console.log(response);
-        $scope.message = "Event created.";
-      }, function (error) {
-        console.log('Unable to create event:', error);
-      })
-    }
-
     // return filtered members based on points
 
 
     // delete member
-
-
-    // delete event
 
 
     // retrieve member's event list
