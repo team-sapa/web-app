@@ -1,9 +1,15 @@
 <!-- index.html -->
 <!DOCTYPE html>
-
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- define angular app -->
 <html ng-app="sapaApp">
-
 
 <head>
     <!-- load bootstrap and fontawesome via CDN -->
@@ -21,45 +27,38 @@
     <script type="text/javascript" src='controllers/eventController.js'></script>
     <script type="text/javascript" src='factories/mainFactory.js'></script>
 </head>
-
-  <body ng-app="sapaApp">
-
+<body ng-app="sapaApp">
     <!-- HEADER AND NAVBAR -->
     <header ng-controller="mainController">
-      <nav class="navbar navbar-default">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">UF SAPA</a>
-          </div>
-          <div ng-if="accessLevel == 1 || accessLevel == 2">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
-              <li><a href="#events"><i class="fa fa-calendar"></i> Events</a></li>
-              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
-              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-              <li><a href="#account"><i class="fa fa-user"></i> Account</a></li>
-            </ul>
-          </div>
-          <div ng-if="accessLevel == 0">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
-              <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
-              <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-              <li><a href="#login"><i class="fa fa-user"></i> Sign in</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">UF SAPA</a>
+                </div>
+                <div ng-if="accessLevel == 1 || accessLevel == 2">
+                    <ul class="nav navbar-right">
+                        <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+                        <li><a href="#events"><i class="fa fa-calendar"></i> Events</a></li>
+                        <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
+                        <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+                        <li><a href="#account"><i class="fa fa-user"></i> Account</a></li>
+                    </ul>
+                </div>
+                <div ng-if="accessLevel == 0">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><i class="fa fa-user"></i> Members</a></li>
+                        <li><a href="#about"><i class="fa fa-info-circle"></i> About</a></li>
+                        <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
+                        <li><a href="#login"><i class="fa fa-user"></i> Sign in</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
-
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div id="main">
-
-      <!-- this is where content will be injected -->
-      <div ng-view></div>
-
+        <!-- this is where content will be injected -->
+        <div ng-view></div>
     </div>
-
-  </body>
-
+</body>
 </html>
