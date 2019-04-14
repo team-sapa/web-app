@@ -220,7 +220,7 @@ exports.list = (req, res) => {
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
-  let id = req.body.id;
+  let id = req.params.memberID;
   console.log("ID: " + id);
   Member.findById(id, (err, member) => {
     if (err) {
@@ -257,8 +257,7 @@ exports.update = (req, res) => {
         var id = req.params.memberID;
         Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
           if (err) {
-            console.log(err.name);
-            console.log(err.code);
+            console.log(err);
             //console.log(err);
             res.status(404);
           }

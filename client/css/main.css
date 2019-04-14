@@ -4,6 +4,46 @@
 *******Typography******
 **************************/
 
+.profileContainer{
+    display: flex;
+    border-radius: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #fff;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.profileImageContainer{
+    width: 300px;
+    height: 300px;
+    margin-left: 20%;
+    background-color: rgb(221, 221, 221);
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.profileInfoContainer{
+    width: 15%;
+    margin-left: 5%;
+}
+.profileContactInfoContainer{
+    width: 30%;
+    margin-top: 40px;
+    margin-left: 5%;
+}
+
+.profileQuestionsContainer{
+    background-color: #fff;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+
 .homeContainer{
     background-color: #fff;
 }

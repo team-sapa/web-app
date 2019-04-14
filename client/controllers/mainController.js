@@ -55,8 +55,9 @@ angular.module('sapaApp')
         }
         updatedMember.token = $scope.token;
         Main.update(updatedMember).then(function (response) {
-          $scope.member = response.data;
           if (response.data.success) {
+            console.log($scope.member);
+            $scope.member = response.data;
             //window.location.reload();
           }
         }, function (error) {
@@ -81,6 +82,10 @@ angular.module('sapaApp')
         Main.info(member).then(function (response) {
           $scope.member = response.data;
           console.log($scope.member);
+          if ($scope.member.contactInfo.profileImage) {
+            // get image
+            console.log($scope.member.contactInfo.profileImage);
+          }
         }, function (error) {
           console.log('Unable to retrieve member:', error);
         });
