@@ -1,13 +1,104 @@
 <!-- members.html -->
-<div class="jumbotron text-center">
+<div class="homeContainer jumbotron text-center">
 
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="filter" placeholder="Filter" aria-label="Filter">
-  </form>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><a href="#profile">Member 1</a></li>
-    <li class="list-group-item"><a href="#profile">Member 2</a></li>
-    <li class="list-group-item"><a href="#profile">Member 3</a></li>
-  </ul>
+  <link rel="stylesheet" href="css/main.css">
 
+  <div>
+    <style>
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+    <img src="images/SAPA.JPG" />
+  </div>
+
+  <style>
+    .topnav a.active {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    .topnav input[type=text] {
+      float: center;
+      padding: 6px;
+      margin-top: 8px;
+      margin-right: 16px;
+      border: solid;
+      font-size: 17px;
+    }
+
+    @media screen and (max-width: 600px) {
+
+      .topnav a,
+      .topnav input[type=text] {
+        float: none;
+        display: block;
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+      }
+
+      .topnav input[type=text] {
+        border: 1px solid #ccc;
+      }
+
+    }
+  </style>
+
+  <section id="portfolio_page">
+
+
+    <div class="container" ng-controller="mainController">
+      <div class="center">
+        <h2>About Members</h2>
+        <div class="topnav">
+          <input type="text" class="form-control" placeholder="Search" ng-model="searchFilters">
+        </div>
+      </div>
+
+
+      <ul class="portfolio-filter text-center">
+        <li><a class="btn btn-default active" href="#" data-filter="*">Members</a></li>
+        <li><a class="btn btn-default" href="#" data-filter=".Exe">Executives</a></li>
+        <li><a class="btn btn-default" href="#" data-filter=".Others">Others</a></li>
+        <li><a class="btn btn-default" href="#" data-filter=".wordpress">Delete?</a></li>
+      </ul>
+      <!--/#portfolio-filter-->
+
+
+      <div class="row">
+        <div class="portfolio-items">
+          <li class="animate-repeat" ng-repeat="x in friends | filter : searchFilters">
+            <!--/.portfolio-item-->
+            <div class="portfolio-item apps col-xs-12 col-md-3 single-work">
+              <div class="recent-work-wrap">
+                <img class="img-responsive" src={{x.image}} alt="">
+                <div class="overlay">
+                  <div class="recent-work-inner">
+                    <a class="preview" href={{x.image}} rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+              <center id="UserName">{{x.name}}</center>
+            </div>
+            <!--/.portfolio-item-->
+
+          </li>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/#portfolio-item-->
+
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/jquery.prettyPhoto.js"></script>
+  <script src="../js/owl.carousel.min.js"></script>
+  <script src="../js/jquery.isotope.min.js"></script>
+  <!--<script src="js/script.js"></script>-->
+  <script src="../js/main.js"></script>
+  <script src="../controllers/mainController.js"></script>
 </div>

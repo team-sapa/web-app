@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | Corlate</title>
+    <title>SAPA | Portfolio</title>
 
     <!-- core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,77 +29,7 @@
 </head>
 <!--/head-->
 
-<body>
-
-    <header id="header">
-        <div class="top-bar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                        <div class="top-number">
-                            <p><i class="fa fa-phone-square"></i> +0123 456 70 90</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xs-12">
-                        <div class="social">
-                            <ul class="social-share">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
-                            </ul>
-                            <div class="search">
-                                <form role="form">
-                                    <input type="text" class="search-form" autocomplete="off" placeholder="Search">
-                                    <i class="fa fa-search"></i>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/.container-->
-        </div>
-        <!--/.top-bar-->
-
-        <nav class="navbar navbar-inverse" role="banner">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
-                </div>
-
-                <div class="collapse navbar-collapse navbar-right">
-                    <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about-us.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li class="active"><a href="portfolio.html">Portfolio</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="blog-item.html">Blog Single</a></li>
-                                <li><a href="pricing.html">Pricing</a></li>
-                                <li><a href="404.html">404</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact-us.html">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!--/.container-->
-        </nav>
-        <!--/nav-->
-
-    </header>
-    <!--/header-->
+<body ng-controller = "mainController">
 
 	<div>
 	<style>
@@ -144,120 +74,119 @@
 </style>
 	
     <section id="portfolio">
-        <div class="container">
+        <div class="container" ng-controller="mainController">
             <div class="center">
                 <h2>About Members</h2>
 					<div class="topnav">
-						<input type="text" placeholder="Search..">
+						<input type="text" class="form-control" placeholder="Search" ng-model="searchFilters">
 					</div> 
             </div>
 
 
             <ul class="portfolio-filter text-center">
                 <li><a class="btn btn-default active" href="#" data-filter="*">Members</a></li>
-                <li><a class="btn btn-default" href="#" data-filter=".bootstrap">Executives</a></li>
-                <li><a class="btn btn-default" href="#" data-filter=".html">Others</a></li>
+                <li><a class="btn btn-default" href="#" data-filter=".Exe">Executives</a></li>
+                <li><a class="btn btn-default" href="#" data-filter=".Others">Others</a></li>
                 <li><a class="btn btn-default" href="#" data-filter=".wordpress">Delete?</a></li>
             </ul>
             <!--/#portfolio-filter-->
 
-            <div class="row">
+            
+            <div class="row" ng-controller="mainController">
                 <div class="portfolio-items">
-                    <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-1.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-1.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                    <li class="animate-repeat" ng-repeat="x in friends | filter : searchFilters as results track by friend.name">
+                        {{accessLevel}}
+                        <!--/.portfolio-item-->
+                        <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src={{x.image}} alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href={{x.image}} rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <center id="UserName">{{x.name}}</center>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
+                    
+                        <!--/.portfolio-item-->
+                        <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <center id="UserName">Samy Boy</center>
+                        </div>
+                        <!--/.portfolio-item-->
 
-                    <div class="portfolio-item joomla bootstrap col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-2.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-2.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                        <div class="portfolio-item joomla Exe col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault1.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault1.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <center id="UserName">Blanchy Boy</center>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
 
-                    <div class="portfolio-item bootstrap wordpress col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-3.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-3.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                        <div class="portfolio-item Exe wordpress col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault2.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault2.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <center id="UserName">Ally Boy</center>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
 
-                    <div class="portfolio-item joomla wordpress apps col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-4.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-4.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                        <div class="portfolio-item joomla wordpress apps col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <center id="UserName">Schwarty Boy</center>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
 
-                    <div class="portfolio-item joomla html bootstrap col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-5.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-5.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                        <div class="portfolio-item joomla Others Exe col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault1.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault1.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
 
-                    <div class="portfolio-item wordpress html apps col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-1.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-1.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                        <div class="portfolio-item wordpress Others apps col-xs-12 col-sm-4 col-md-3 single-work">
+                            <div class="recent-work-wrap">
+                                <img class="img-responsive" src="images/UserDefault2.png" alt="">
+                                <div class="overlay">
+                                    <div class="recent-work-inner">
+                                        <a class="preview" href="images/UserDefault2.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--/.portfolio-item-->
-
-                    <div class="portfolio-item joomla html bootstrap col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-6.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-6.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/.portfolio-item-->
-
-                    <div class="portfolio-item wordpress html apps col-xs-12 col-sm-4 col-md-3 single-work">
-                        <div class="recent-work-wrap">
-                            <img class="img-responsive" src="images/portfolio/item-2.png" alt="">
-                            <div class="overlay">
-                                <div class="recent-work-inner">
-                                    <a class="preview" href="images/portfolio/item-2.png" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/.portfolio-item-->
+                        <!--/.portfolio-item-->
+                    </li>
                 </div>
             </div>
         </div>
@@ -288,7 +217,9 @@
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
+    <!--<script src="js/script.js"></script>-->
     <script src="js/main.js"></script>
+    <script src="controllers/mainController.js"></script>
 </body>
 
 </html>
