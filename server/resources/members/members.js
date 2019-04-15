@@ -3,7 +3,8 @@ var Member = require('../members/schema'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
   async = require('async'),
-  jwt = require('jsonwebtoken');
+  fs = require('fs');
+jwt = require('jsonwebtoken');
 BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
 require('dotenv').config();
@@ -66,7 +67,7 @@ exports.create = (req, res) => {
           subject: 'Register for your UF SAPA account',
           text: 'Welcome to UF SAPA.\n\n' +
             'Please click on the following link to complete the registration process:\n\n' +
-            'http://' + req.hostname + '/register/' + token + '\n\n'
+            'http://' + req.hostname + '/#/register/' + token + '\n\n'
         };
         smtpTrans.sendMail(mailOptions, function (err) {
           if (err) {
@@ -137,7 +138,7 @@ exports.register = (req, res) => {
         subject: 'Your UF SAPA Account is now complete!',
         text: 'Hello ' + member.email + ',\n\n' +
           'This is a confirmation that your UF SAPA Account has been created.\n\n' +
-          'You can now log in at ' + 'http://' + req.hostname + '/login'
+          'You can now log in at ' + 'http://' + req.hostname + '/#/login'
       };
       smtpTrans.sendMail(mailOptions, function (err) {
         if (err) {
@@ -229,31 +230,40 @@ exports.info = (req, res) => {
 //UPDATES SINGLE MEMBER'S INFO (ADMIN/THAT MEMBER)
 exports.update = (req, res) => {
   //check current user level/memberID
-  jwt.verify(req.token, 'super secret key', (err, authData) => {
+  jwt.verify(req.body.token, process.env.secret, (err, authData) => {
     if (err) {
+      console.log(err);
       res.status(403);
     }
     else {
       //ADMIN or THAT MEMBER
       if (authData.member.userLevel >= 2 || authData.member.memberID == req.member.memberID) {
-        res.json('Authorized Member');
+        console.log("Authorized Member");
         //~~~~~~UPDATE THE INFO HERE~~~~~~~
-        var member = req.member;
         var body = req.body;
+        console.log(body);
         var id = req.params.memberID;
-        Member.findByIdAndUpdate(id, body, {new: true}, function(err, update){
-          if (err){
-            console.log(err);
-            res.status(404).send(err);
+        Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+          if (err) {
+            console.log(err.name);
+            console.log(err.code);
+            //console.log(err);
+            res.status(404);
           }
           else {
-           res.json(update);
+            //console.log(member);
+            console.log("Member updated.");
+            res.json({
+              success: true,
+              message: 'Member updated',
+              member: member
+            });
           }
         });
       }
       else {
         //res.status()
-        res.json('Unathorized Member');
+        res.json('Unauthorized Member');
       }
     }
   });

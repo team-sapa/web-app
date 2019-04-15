@@ -1,29 +1,23 @@
 <!-- admin.html -->
 <div class="jumbotron text-center" ng-controller="adminController">
 
-  <div ng-if="accessLevel != 2">
-    <h2>Access Denied</h2>
-  </div>
-  <div ng-if="accessLevel == 2">
-      <h2>Admin Page</h2>
-      <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="email" ng-model="newUser.email">
-          <input type="number" class="form-control" placeholder="access level" ng-model="newUser.accessLevel">
-          <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" ng-click="create(newUser)">Add User</button>
-          </div>
-      </div>
-      <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
-          <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
-          <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
-          <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
-          <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
-          <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" ng-click="createEvent(newEvent)">Add Event</button>
-          </div>
-      </div>
-      {{message}}
-  </div>
+    <div ng-if="accessLevel != 2">
+        <h2>Access Denied</h2>
+    </div>
+    <div ng-if="accessLevel == 2">
+        <h2>Admin Page</h2>
+        <div class="input-group mb-3">
+            <label>Create a new Member</label>
+            <input type="text" class="form-control" placeholder="email" ng-model="newUser.email">
+            <select class="form-control" id="accessLevel" ng-model="newUser.accessLevel">
+                <option value="1" selected>Member</option>
+                <option value="2">Admin</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" ng-click="create(newUser)">Add Member</button>
+            </div>
+            <h4>{{message}}</h4>
+        </div>
+    </div>
 
 </div>

@@ -2,26 +2,22 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
   function ($scope, Main) {
 
     // check & set access level/auth token
-    $scope.accessLevel = 2;
-
-
-    // create event
-      $scope.createEvent = function (newEvent) {
-          Main.createEvent(newEvent).then(function (response) {
-              console.log(response);
-              $scope.message = "Event created.";
-          }, function (error) {
-              console.log('Unable to create event:', error);
-          })
-      }
+    if (Main.isLoggedIn()) {
+      var token = JSON.parse(Main.getToken());
+      $scope.token = token
+      var user = JSON.parse(Main.getUser());
+      $scope.user = user;
+      $scope.accessLevel = user.level;
+    }
+    else {
+      $scope.accessLevel = 0;
+      console.log("not authenticated");
+    }
 
     // return filtered members based on points
 
 
     // delete member
-
-
-    // delete event
 
 
     // retrieve member's event list

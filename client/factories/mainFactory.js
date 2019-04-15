@@ -22,9 +22,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     },
 
     // log out (delete token + user)
-    logOut: function () {
+    logout: function () {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      console.log("logged out");
     },
 
     // check if currently logged in
@@ -45,6 +46,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
     info: function (id) {
       return $http.get('/members/:memberID', id);
+    },
+
+    listEvents: function () {
+      return $http.get('/events/');
     },
 
     // return filtered members based on points
@@ -72,14 +77,20 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     createEvent: function (newEvent) {
       console.log(newEvent);
       return $http.post('/events/', newEvent);
-    }
+    },
 
 
 
 
     // PATCH requests
+    update: function (updatedMember) {
+      console.log(updatedMember);
+      return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
+    }
+
     // update member's attendance status
     // update member info
+    // update event info
 
 
 
