@@ -20,7 +20,7 @@
             <span class="input-group-addon" id="sizing-addon1">
                 <button ng-click="filter()" class="glyphicon glyphicon-search"></button>
             </span>
-            <input type="text" class="form-control" placeholder="Search" ng-model="query" ng-change="filter()">
+            <input type="text" class="form-control" placeholder="Search" ng-model="query.text" ng-change="filter()">
         </div>
         <div class="card-deck" ng-repeat="array in events2D">
             <div class="card bg-light" ng-repeat="event in array">

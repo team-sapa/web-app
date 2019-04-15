@@ -102,14 +102,16 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
     updateEvent: function (event) {
       return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
-    }
+    },
 
 
 
     // DELETE requests
     // delete member
-    // delete event
-
+    
+    deleteEvent: function (eventID) {
+      return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
+    }
 
   };
 
