@@ -11,7 +11,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       var token = localStorage.getItem('token');
       return token;
     },
-
+    getEvent: function () {
+      return localStorage.getItem('event');
+    },
 
     // set variables through local storage
     setUser: function (user) {
@@ -19,6 +21,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     },
     setToken: function (token) {
       $window.localStorage.setItem('token', JSON.stringify(token));
+    },
+    setEvent: function (id) {
+      $window.localStorage.setItem('event', id);
     },
 
     // log out (delete token + user)
@@ -50,6 +55,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
     listEvents: function () {
       return $http.get('/events/');
+    },
+
+    infoEvent: function (id) {
+      return $http.get('/events/' + id);
     },
 
     // return filtered members based on points

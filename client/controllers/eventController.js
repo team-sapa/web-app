@@ -37,6 +37,16 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             return !$scope.query || event.name.toUpperCase().includes($scope.query.toUpperCase()) || event.points.toString().toUpperCase().includes($scope.query.toUpperCase())
                 || event.date2.toUpperCase().includes($scope.query.toUpperCase());
         }
+        
+        Main.infoEvent(Main.getEvent()).then(function (response) {
+            console.log(response);
+            $scope.selectedEvent = response.data;
+            $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
+                $scope.selectedEvent.date.substring(8, 10));
+            $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        }, function (error) {
+            console.log('Unable to get event:', error);
+        })
 
         Main.listEvents().then(reList, function (error) {
             console.log('Unable to retrieve events:', error);
@@ -57,6 +67,11 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                     counter++;
                 }
             }
+        }
+
+        $scope.showInfo = function (event) {
+            Main.setEvent(event._id);
+            window.location.href = '/#/event';
         }
 
         // create event
@@ -83,6 +98,12 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             });
         }
 
-        //TODO: delete and update
+        $scope.updateEvent = function (newEvent) {
+            console.log('update');
+        }
+
+        $scope.deleteEvent = function () {
+            console.log('delete');
+        }
     }
 ]);
