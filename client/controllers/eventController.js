@@ -1,6 +1,7 @@
 angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
     function ($scope, Main) {
         $scope.cardsPerRow = 8;
+        $scope.query = {};
 
         // check & set access level/auth token
         if (Main.isLoggedIn()) {
@@ -34,9 +35,18 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         function fitsFilter(event) {
-            return !$scope.query || event.name.toUpperCase().includes($scope.query.toUpperCase()) || event.points.toString().toUpperCase().includes($scope.query.toUpperCase())
-                || event.date2.toUpperCase().includes($scope.query.toUpperCase());
+            return !$scope.query.text || event.name.toUpperCase().includes($scope.query.text.toUpperCase())
+                || event.points.toString().toUpperCase().includes($scope.query.text.toUpperCase()) || event.date2.toUpperCase().includes($scope.query.text.toUpperCase());
         }
+        
+        Main.infoEvent(Main.getEvent()).then(function (response) {
+            $scope.selectedEvent = response.data;
+            $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
+                $scope.selectedEvent.date.substring(8, 10));
+            $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        }, function (error) {
+            console.log('Unable to get event:', error);
+        })
 
         Main.listEvents().then(reList, function (error) {
             console.log('Unable to retrieve events:', error);
@@ -59,10 +69,14 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             }
         }
 
+        $scope.showInfo = function (event) {
+            Main.setEvent(event._id);
+            window.location.href = '/#/event';
+        }
+
         // create event
         $scope.createEvent = function (newEvent) {
             Main.createEvent(newEvent).then(function (response) {
-                console.log(response);
                 Main.listEvents().then(reList, function (error) {
                     console.log('Unable to retrieve events:', error);
                 });
@@ -83,6 +97,34 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             });
         }
 
-        //TODO: delete and update
+        $scope.updateEvent = function (newEvent) {
+            newEvent._id = $scope.selectedEvent._id;
+            newEvent.name = (newEvent.name) ? (newEvent.name) : ($scope.selectedEvent.name);
+            newEvent.date = (newEvent.date) ? (newEvent.date) : ($scope.selectedEvent.date);
+            newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
+            newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
+            newEvent.points = (newEvent.points) ? (newEvent.points) : ($scope.selectedEvent.points);
+            Main.updateEvent(newEvent).then(function (response) {
+                newEvent.name = '';
+                newEvent.date = null;
+                newEvent.info = '';
+                newEvent.type = '';
+                newEvent.points = null;
+                $scope.selectedEvent = response.data;
+                $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
+                    $scope.selectedEvent.date.substring(8, 10));
+                $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            }, function (error) {
+                console.log('Unable to update event:', error);
+            })
+        }
+
+        $scope.deleteEvent = function (id) {
+            Main.deleteEvent(id).then(function (response) {
+                $scope.selectedEvent = { name: 'EVENT DELETED' };
+            }, function (error) {
+                console.log('Unable to delete event:', error);
+            })
+        }
     }
 ]);

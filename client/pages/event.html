@@ -1,0 +1,27 @@
+﻿<!-- event.html -->
+<div class="jumbotron text-center" ng-controller="eventController">
+    <h2 ng-if="accessLevel == 0">Access Denied</h2>
+    <div ng-if="accessLevel > 0">
+        <h2>{{selectedEvent.name}}</h2>
+        <h2>{{selectedEvent.date2}}</h2>
+        <h2>{{selectedEvent.points}} Point(s)</h2>
+        <p>{{selectedEvent.info}}</p>
+        <p>Tags: {{selectedEvent.type}}</p>
+        <div class="input-group mb-3" ng-if="accessLevel == 2">
+            <label>Manage Event</label>
+            <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
+            <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
+            <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
+            <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
+            <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
+            <div class="input-group-append">
+                <button class="btn btn-light" type="button" ng-click="updateEvent(newEvent)">
+                    Update Event
+                </button>
+                <button class="btn btn-danger" type="button" ng-click="deleteEvent(selectedEvent._id)">
+                    Delete Event
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

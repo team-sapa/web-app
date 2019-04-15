@@ -72,7 +72,7 @@ var mongoose = require('mongoose'),
         var event = req.event;
 
         //find and update
-        Event.findOneAndUpdate({ name: event.name, date: event.date, info: event.info, type: event.type, points: event.points }, req.body, function (error, document) {
+        Event.findOneAndUpdate({ _id: event._id }, req.body, function (error, document) {
             if (error) {
                 //print and send error
                 res.status(404).send(error);
@@ -90,6 +90,31 @@ var mongoose = require('mongoose'),
             }
         });
     };
+
+//DELETE SINGLE EVENT(ADMIN)
+exports.delete = (req, res) => {
+    //check permissions
+    /*jwt.verify(req.token, 'super secret key', (err, authData) => {
+        //if error or not admin
+        if (err || authData.member.userLevel < 2) {
+            //send error
+            res.status(403);
+        }
+    });*/
+    
+    //get event info
+    var event = req.event;
+
+    //find and update
+    Event.findOneAndRemove({ _id: event._id }, function (error, document) {
+        if (error) {
+            //print and send error
+            res.status(404).send(error);
+        } else {
+            res.json(document);
+        }
+    });
+};
 
     //MIDDLEWARE TO FIND EVENT
     exports.eventByID = (req, res, next, id) => {
