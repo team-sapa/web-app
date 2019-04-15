@@ -99,6 +99,11 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
 
         $scope.updateEvent = function (newEvent) {
             newEvent._id = $scope.selectedEvent._id;
+            newEvent.name = (newEvent.name) ? (newEvent.name) : ($scope.selectedEvent.name);
+            newEvent.date = (newEvent.date) ? (newEvent.date) : ($scope.selectedEvent.date);
+            newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
+            newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
+            newEvent.points = (newEvent.points) ? (newEvent.points) : ($scope.selectedEvent.points);
             Main.updateEvent(newEvent).then(function (response) {
                 newEvent.name = '';
                 newEvent.date = null;
