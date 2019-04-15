@@ -72,7 +72,7 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     createEvent: function (newEvent) {
       console.log(newEvent);
       return $http.post('/events/', newEvent);
-    }
+    },
 
 
 
@@ -80,7 +80,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     // PATCH requests
     // update member's attendance status
     // update member info
-
+    update: function(newInfo){
+      console.log(newInfo);
+      return $http.patch('/members/:memberID', newInfo);
+    }
 
 
 
