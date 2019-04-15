@@ -95,13 +95,14 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     update: function (updatedMember) {
       console.log(updatedMember);
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
-    }
+    },
 
     // update member's attendance status
     // update member info
-    // update event info
 
-
+    updateEvent: function (event) {
+      return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
+    }
 
 
 

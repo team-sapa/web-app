@@ -72,7 +72,7 @@ var mongoose = require('mongoose'),
         var event = req.event;
 
         //find and update
-        Event.findOneAndUpdate({ name: event.name, date: event.date, info: event.info, type: event.type, points: event.points }, req.body, function (error, document) {
+        Event.findOneAndUpdate({ _id: event._id }, req.body, function (error, document) {
             if (error) {
                 //print and send error
                 res.status(404).send(error);

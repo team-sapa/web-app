@@ -99,7 +99,21 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         $scope.updateEvent = function (newEvent) {
-            console.log('update');
+            newEvent._id = $scope.selectedEvent._id;
+            Main.updateEvent(newEvent).then(function (response) {
+                console.log(response);
+                newEvent.name = '';
+                newEvent.date = null;
+                newEvent.info = '';
+                newEvent.type = '';
+                newEvent.points = null;
+                $scope.selectedEvent = response.data;
+                $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
+                    $scope.selectedEvent.date.substring(8, 10));
+                $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            }, function (error) {
+                console.log('Unable to update event:', error);
+            })
         }
 
         $scope.deleteEvent = function () {
