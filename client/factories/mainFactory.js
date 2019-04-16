@@ -49,8 +49,8 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.get('/members/');
     },
 
-    info: function (id) {
-      return $http.get('/members/:memberID', id);
+    info: function (member) {
+      return $http.get('/members/' + member.id, member);
     },
 
     listEvents: function () {
