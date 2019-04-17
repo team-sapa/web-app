@@ -1,4 +1,5 @@
 var Member = require('../members/schema'),
+  Attendance = require('../attendance/schema'),
   bcrypt = require('bcrypt'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
