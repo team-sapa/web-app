@@ -41,7 +41,8 @@ var memberSchema = new Schema({
 
     //Point Information
     points: Number,
-    events: [ObjectId] //Stores links to events
+    events: [ObjectId], //Stores links to events (present)
+    absent: [ObjectId] //Stores links to events (absent)
 });
 
 var Member = mongoose.model('Member', memberSchema);

@@ -8,6 +8,8 @@ var attendanceSchema = new Schema({
     eventID: ObjectId,
     //To link to user
     userID: ObjectId,
+    //true = present, false = absent
+    present: Boolean
 });
 
 var Attendance = mongoose.model('attendance', attendanceSchema, 'attendance');

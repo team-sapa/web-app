@@ -356,6 +356,7 @@ exports.registerByID = (req, res, next, id) => {
 
 //MIDDLEWARE - attatchhes token to the req object
 exports.verifyToken = function (req, res, next) {
+    console.log('verifying token');
   //Token Format
   //Authorization: Bearer <access_token>
 
@@ -372,6 +373,7 @@ exports.verifyToken = function (req, res, next) {
 
   }
   else {
+      console.log(typeof bearerHeader);
     res.json("Authorization Error")
   }
 }

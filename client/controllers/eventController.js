@@ -110,6 +110,8 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                 newEvent.info = '';
                 newEvent.type = '';
                 newEvent.points = null;
+                newEvent.penalty = null;
+                newEvent.max = null;
                 $scope.selectedEvent = response.data;
                 $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
                     $scope.selectedEvent.date.substring(8, 10));
@@ -124,6 +126,25 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                 $scope.selectedEvent = { name: 'EVENT DELETED' };
             }, function (error) {
                 console.log('Unable to delete event:', error);
+            })
+        }
+
+        $scope.signUp = function (stats, firstName, lastName) {
+            if ($scope.accessLevel < 2 && Date.now() > (new Date($scope.selectedEvent.date)).getMilliseconds()) {
+                $scope.message = 'too late to sign up';
+                return;
+            }
+
+            if ($scope.selectedEvent.current >= $scope.selectedEvent.max && $scope.selectedEvent.max > 0 && stats == 1) {
+                $scope.message = 'event is full';
+                return;
+            }
+
+            Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, firstName, lastName).then(function (response) {
+                $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
+                $scope.selectedEvent = response.data;
+            }, function (error) {
+                console.log('Unable to change attendance:', error);
             })
         }
     }
