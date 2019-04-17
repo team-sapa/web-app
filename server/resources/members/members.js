@@ -1,4 +1,5 @@
 var Member = require('../members/schema'),
+  Attendance = require('../attendance/schema'),
   bcrypt = require('bcrypt'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
@@ -220,6 +221,7 @@ exports.list = (req, res) => {
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
+  
   res.json(req.member);
 };
 
