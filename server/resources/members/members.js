@@ -222,10 +222,6 @@ exports.list = (req, res) => {
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
-<<<<<<< HEAD
-  
-  res.json(req.member);
-=======
   let id = req.params.memberID;
   console.log("ID: " + id);
   Member.findById(id, (err, member) => {
@@ -239,7 +235,6 @@ exports.info = (req, res) => {
     }
 
   });
->>>>>>> 8976a5f13d894cf913bb379ec825d3d7ebf50c4f
 };
 
 /*TODO:

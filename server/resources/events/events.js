@@ -75,24 +75,6 @@ var mongoose = require('mongoose'),
         var event = req.event;
 
         //find and update
-<<<<<<< HEAD
-        Event.findOneAndUpdate({ name: event.name, date: event.date, info: event.info, type: event.type, points: event.points }, req.body, function (error, document) {
-            if (error) {
-                //print and send error
-                res.status(404).send(error);
-            } else {
-                //find updated
-                Event.findOne(req.body, function (error2, document2) {
-                    if (error2) {
-                        //print and send error
-                        res.status(404).send(error2);
-                    } else {
-                        //return updated event
-                        res.json(document2);
-                    }
-                });
-            }
-=======
         Event.findOneAndUpdate({ _id: event._id }, req.body, function (error, document) {
             if (error) {
                 //print and send error
@@ -109,7 +91,6 @@ var mongoose = require('mongoose'),
                     }
                 });
             }
->>>>>>> 8976a5f13d894cf913bb379ec825d3d7ebf50c4f
         });
     };
 
