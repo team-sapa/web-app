@@ -37,7 +37,8 @@ var mongoose = require('mongoose'),
 
         //create event
         var event = new Event(req.body);
-
+        //timeslots is an array of the timeslots w/ no members
+        
         //save event
         event.save(function (err) {
             if (err) {
@@ -53,6 +54,8 @@ var mongoose = require('mongoose'),
 
     //DISPLAYS SINGLE EVENT'S INFO
     exports.info = (req, res) => {
+        //Get list of members names for each time slot
+        
         //return event
         res.json(req.event);
     };

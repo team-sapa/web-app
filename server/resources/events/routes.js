@@ -7,7 +7,7 @@ var event = require('../events/events'),
 
 router.route('/')
     .get(event.list)        //displays all events
-    .post(/*member.verifyToken, */event.create);     //allow admins to create events (memberlevel high enough)
+    .post(event.create);     //allow admins to create events (memberlevel high enough)
 
 router.route('/:eventID')
     .get(event.info, attendance.memberList)            //displays this events info
