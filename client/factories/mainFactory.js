@@ -11,7 +11,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       var token = localStorage.getItem('token');
       return token;
     },
-
+    getEvent: function () {
+      return localStorage.getItem('event');
+    },
 
     // set variables through local storage
     setUser: function (user) {
@@ -19,6 +21,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     },
     setToken: function (token) {
       $window.localStorage.setItem('token', JSON.stringify(token));
+    },
+    setEvent: function (id) {
+      $window.localStorage.setItem('event', id);
     },
 
     // log out (delete token + user)
@@ -44,12 +49,16 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.get('/members/');
     },
 
-    info: function (id) {
-      return $http.get('/members/:memberID', id);
+    info: function (member) {
+      return $http.get('/members/' + member.id, member);
     },
 
     listEvents: function () {
       return $http.get('/events/');
+    },
+
+    infoEvent: function (id) {
+      return $http.get('/events/' + id);
     },
 
     // return filtered members based on points
@@ -86,20 +95,23 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     update: function (updatedMember) {
       console.log(updatedMember);
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
-    }
+    },
 
     // update member's attendance status
     // update member info
-    // update event info
 
-
+    updateEvent: function (event) {
+      return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
+    },
 
 
 
     // DELETE requests
     // delete member
-    // delete event
-
+    
+    deleteEvent: function (eventID) {
+      return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
+    }
 
   };
 

@@ -4,8 +4,9 @@ var Member = require('../members/schema'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
   async = require('async'),
-  fs = require('fs');
-jwt = require('jsonwebtoken');
+  fs = require('fs'),
+  jwt = require('jsonwebtoken'),
+  cloudinary = require('cloudinary');
 BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
 require('dotenv').config();
@@ -221,8 +222,24 @@ exports.list = (req, res) => {
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
+<<<<<<< HEAD
   
   res.json(req.member);
+=======
+  let id = req.params.memberID;
+  console.log("ID: " + id);
+  Member.findById(id, (err, member) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+    else {
+      console.log(member);
+      res.json(member);
+    }
+
+  });
+>>>>>>> 8976a5f13d894cf913bb379ec825d3d7ebf50c4f
 };
 
 /*TODO:
@@ -243,25 +260,51 @@ exports.update = (req, res) => {
         console.log("Authorized Member");
         //~~~~~~UPDATE THE INFO HERE~~~~~~~
         var body = req.body;
-        console.log(body);
         var id = req.params.memberID;
-        Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
-          if (err) {
-            console.log(err.name);
-            console.log(err.code);
-            //console.log(err);
-            res.status(404);
-          }
-          else {
-            //console.log(member);
-            console.log("Member updated.");
-            res.json({
-              success: true,
-              message: 'Member updated',
-              member: member
+        if (body.image) {
+          cloudinary.uploader.upload(body.image.data, function (result) {
+            console.log(result);
+            var profileImage = { src: result.url, contentType: result.format, id: result.public_id };
+            console.log(profileImage);
+            body.contactInfo.profileImage = profileImage;
+
+            Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+              if (err) {
+                console.log(err);
+                //console.log(err);
+                res.status(404);
+              }
+              else {
+                //console.log(member);
+                console.log("Member updated.");
+                res.json({
+                  success: true,
+                  message: 'Member updated',
+                  member: member
+                });
+              }
             });
-          }
-        });
+          });
+        }
+        else {
+          Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+            if (err) {
+              console.log(err);
+              //console.log(err);
+              res.status(404);
+            }
+            else {
+              //console.log(member);
+              console.log("Member updated.");
+              res.json({
+                success: true,
+                message: 'Member updated',
+                member: member
+              });
+            }
+          });
+        }
+
       }
       else {
         //res.status()

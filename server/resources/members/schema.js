@@ -23,8 +23,9 @@ var memberSchema = new Schema({
         major: [String],
         minor: [String],
         profileImage: {
-            data: Buffer,
-            contentType: String
+            src: String,
+            contentType: String,
+            id: String
         }
     },
 
