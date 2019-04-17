@@ -12,7 +12,8 @@ var eventSchema = new Schema({
     type: String,   //Social, Fundraising, etc. 
     points: Number, //Point value for event
     penalty: Number,//Point penalty for missing
-    max: Number     //Maximum attendees (max <= 0 means no max)
+    max: Number,    //Maximum attendees (max <= 0 means no max)
+    current: Number,//Current num attendees
 });
 
 

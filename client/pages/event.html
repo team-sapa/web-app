@@ -6,7 +6,7 @@
         <h2>{{selectedEvent.date2}}</h2>
         <h2>{{selectedEvent.points}} Point(s)</h2>
         <p>-{{selectedEvent.penalty}} Point(s) if Absent</p>
-        <p ng-if="selectedEvent.max > 0">Max {{selectedEvent.max}} Attendees</p>
+        <p ng-if="selectedEvent.max > 0">{{selectedEvent.current}} out of {{selectedEvent.max}} Attendees</p>
         <p>{{selectedEvent.info}}</p>
         <p>Tags: {{selectedEvent.type}}</p>
         <div class="input-group mb-3" ng-if="accessLevel == 2">
