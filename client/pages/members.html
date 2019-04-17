@@ -3,17 +3,6 @@
 
   <link rel="stylesheet" href="css/main.css">
 
-  <div>
-    <style>
-      img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-    </style>
-    <img src="images/SAPA.JPG" />
-  </div>
-
   <style>
     .topnav a.active {
       background-color: #2196F3;
@@ -48,50 +37,50 @@
     }
   </style>
 
-  <section id="portfolio_page">
 
 
-    <div class="container" ng-controller="mainController">
-      <div class="center">
-        <h2>About Members</h2>
-        <div class="topnav">
-          <input type="text" class="form-control" placeholder="Search" ng-model="searchFilters">
-        </div>
+  <div class="container" ng-controller="mainController">
+    <div class="center">
+      <div class="topnav">
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchFilters">
       </div>
+    </div>
 
+    <div class="row">
+      <div class="animate-repeat" ng-repeat="x in members | filter : searchFilters">
+        <div class="memberContainer row" ng-if="x.contactInfo.firstName">
 
-      <ul class="portfolio-filter text-center">
-        <li><a class="btn btn-default active" href="#" data-filter="*">Members</a></li>
-        <li><a class="btn btn-default" href="#" data-filter=".Exe">Executives</a></li>
-        <li><a class="btn btn-default" href="#" data-filter=".Others">Others</a></li>
-        <li><a class="btn btn-default" href="#" data-filter=".wordpress">Delete?</a></li>
-      </ul>
-      <!--/#portfolio-filter-->
-
-
-      <div class="row">
-        <div class="portfolio-items">
-          <li class="animate-repeat" ng-repeat="x in friends | filter : searchFilters">
-            <!--/.portfolio-item-->
-            <div class="portfolio-item apps col-xs-12 col-md-3 single-work">
-              <div class="recent-work-wrap">
-                <img class="img-responsive" src={{x.image}} alt="">
-                <div class="overlay">
-                  <div class="recent-work-inner">
-                    <a class="preview" href={{x.image}} rel="prettyPhoto"><i class="fa fa-plus"></i></a>
-                  </div>
+          <div class="col-sm-4 single-work">
+            <div class="recent-work-wrap">
+              <img class="profileImage img-responsive" src={{x.contactInfo.profileImage.src}} alt="">
+              <div class="overlay">
+                <div class="recent-work-inner">
+                  <a class="preview" href="#/profile/{{x._id}}" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
                 </div>
               </div>
-              <center id="UserName">{{x.name}}</center>
             </div>
-            <!--/.portfolio-item-->
+            <center id="UserName">{{x.contactInfo.firstName}} {{x.contactInfo.lastName}}</center>
+          </div>
+          <div class="text-left col-sm-4 memberInfoContainer">
+            <h2>Programs</h2>
+            <div ng-repeat="program in x.contactInfo.program">
+              <h4>{{program}}</h4>
+            </div>
+            <h2>Majors</h2>
+            <div ng-repeat="major in x.contactInfo.major">
+              <h4>{{major}}</h4>
+            </div>
+            <h2>Email</h2>
+            <h4>{{x.email}}</h4>
+            <h2>Office Hours</h2>
+            <h4>{{x.bioInfo.officeHours}}</h4>
+          </div>
 
-          </li>
         </div>
       </div>
     </div>
-  </section>
-  <!--/#portfolio-item-->
+  </div>
+
 
   <script src="../js/jquery.js"></script>
   <script src="../js/bootstrap.min.js"></script>
