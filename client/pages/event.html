@@ -5,6 +5,8 @@
         <h2>{{selectedEvent.name}}</h2>
         <h2>{{selectedEvent.date2}}</h2>
         <h2>{{selectedEvent.points}} Point(s)</h2>
+        <p>-{{selectedEvent.penalty}} Point(s) if Absent</p>
+        <p ng-if="selectedEvent.max > 0">Max {{selectedEvent.max}} Attendees</p>
         <p>{{selectedEvent.info}}</p>
         <p>Tags: {{selectedEvent.type}}</p>
         <div class="input-group mb-3" ng-if="accessLevel == 2">
@@ -14,8 +16,10 @@
             <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
             <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
             <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
+            <input type="number" class="form-control" placeholder="penalty (positive number)" ng-model="newEvent.penalty">
+            <input type="number" class="form-control" placeholder="max attendees (0 for no max)" ng-model="newEvent.max">
             <div class="input-group-append">
-                <button class="btn btn-light" type="button" ng-click="updateEvent(newEvent)">
+                <button class="btn btn-success" type="button" ng-click="updateEvent(newEvent)">
                     Update Event
                 </button>
                 <button class="btn btn-danger" type="button" ng-click="deleteEvent(selectedEvent._id)">
@@ -23,5 +27,12 @@
                 </button>
             </div>
         </div>
+        <button class="btn btn-success" type="button" ng-click="signUp(1, null, null)">
+            Sign Up
+        </button>
+        <button class="btn btn-light" type="button" ng-click="signUp(2, null, null)">
+            Withdraw
+        </button>
+        <p>{{message}}</p>
     </div>
 </div>
