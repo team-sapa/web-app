@@ -33,25 +33,27 @@ var mongoose = require('mongoose'),
                 var memberID = req.body.user;
                 var level = req.body.level;
 
-                if (level >= 2 && presence == 2) {
-                    //remove if excused
-                    Attendance.findOneAndRemove({ eventID: eventId, userID: memberID }, function (error, document) {
-                        if (error) {
-                            //print and send error
-                            res.status(404).send(error);
-                        } else {
-                            Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (document.present) ? (-points) : (penalty) } }); //TODO: fix these
-                            Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
-                                if (e) {
-                                    //print and send error
-                                    res.status(404).send(e);
-                                } else {
-                                    res.json(d);
-                                }
-                            });
-                        }
-                    });
-                } else if (level >= 1) {
+                if (level >= 1) {
+                    if (presence == 2) {
+                        //remove if excused
+                        Attendance.findOneAndRemove({ eventID: eventId, userID: memberID }, function (error, document) {
+                            if (error) {
+                                //print and send error
+                                res.status(404).send(error);
+                            } else {
+                                Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (document.present) ? (-points) : (penalty) } }); //TODO: fix these
+                                Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
+                                    if (e) {
+                                        //print and send error
+                                        res.status(404).send(e);
+                                    } else {
+                                        res.json(d);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
                     var att = {
                         eventID: eventId,
                         userID: memberID,

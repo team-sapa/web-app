@@ -38,6 +38,16 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             return !$scope.query.text || event.name.toUpperCase().includes($scope.query.text.toUpperCase())
                 || event.points.toString().toUpperCase().includes($scope.query.text.toUpperCase()) || event.date2.toUpperCase().includes($scope.query.text.toUpperCase());
         }
+
+        function clearFields() {
+            newEvent.name = '';
+            newEvent.date = null;
+            newEvent.info = '';
+            newEvent.type = '';
+            newEvent.points = null;
+            newEvent.penalty = null;
+            newEvent.max = null;
+        }
         
         Main.infoEvent(Main.getEvent()).then(function (response) {
             $scope.selectedEvent = response.data;
@@ -80,11 +90,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                 Main.listEvents().then(reList, function (error) {
                     console.log('Unable to retrieve events:', error);
                 });
-                newEvent.name = '';
-                newEvent.date = null;
-                newEvent.info = '';
-                newEvent.type = '';
-                newEvent.points = null;
+                clearFields();
             }, function (error) {
                 console.log('Unable to create event:', error);
             })
@@ -104,14 +110,10 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
             newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
             newEvent.points = (newEvent.points) ? (newEvent.points) : ($scope.selectedEvent.points);
+            newEvent.penalty = (newEvent.penalty) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
+            newEvent.max = (newEvent.max) ? (newEvent.max) : ($scope.selectedEvent.max);
             Main.updateEvent(newEvent).then(function (response) {
-                newEvent.name = '';
-                newEvent.date = null;
-                newEvent.info = '';
-                newEvent.type = '';
-                newEvent.points = null;
-                newEvent.penalty = null;
-                newEvent.max = null;
+                clearFields();
                 $scope.selectedEvent = response.data;
                 $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
                     $scope.selectedEvent.date.substring(8, 10));
@@ -129,7 +131,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             })
         }
 
-        $scope.signUp = function (stats, firstName, lastName) {
+        $scope.signUp = function (stats, email) {
             if ($scope.accessLevel < 2 && Date.now() > (new Date($scope.selectedEvent.date)).getMilliseconds()) {
                 $scope.message = 'too late to sign up';
                 return;
@@ -140,7 +142,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                 return;
             }
 
-            Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, firstName, lastName).then(function (response) {
+            Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, email).then(function (response) {
                 $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
                 $scope.selectedEvent = response.data;
             }, function (error) {

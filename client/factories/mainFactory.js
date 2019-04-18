@@ -88,22 +88,25 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.post('/events/', newEvent);
     },
 
-      updateAttend: function (event, firstName, lastName) {
-          if (firstName && lastName) {
+      updateAttend: function (event, email) {
+          var user = JSON.parse(localStorage.getItem('user'));
+          event.user = user._id;
+          event.level = user.level;
+
+          if (email) {
               list().then(function (response) {
                   for (var m = 0; m < response.data.length; ++m) {
-                      if (response.data[m].contactInfo.firstName == firstName && response.data[m].contactInfo.lastName == lastName) {
+                      if (response.data[m].email == email) {
+                          event.user = response.data[m]._id;
                           break;
                       }
                   }
               }, function (error) {
                   console.log('Unable to change attendance:', error);
+                  return {};
               });
           }
-
-          var user = JSON.parse(localStorage.getItem('user'));
-          event.user = user._id;
-          event.level = user.level;
+          
           return $http.post('/events/' + event._id, event);
       },
 
@@ -126,8 +129,18 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     // delete member
     
     deleteEvent: function (eventID) {
-      //TODO: delete attendance objects
-      return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
+        list().then(function (response) {
+            for (var m = 0; m < response.data.length; ++m) {
+                if (response.data[m].events.includes(eventID) || response.data[m].absent.includes(eventID)) {
+                    updateAttend({ _id: $scope.selectedEvent._id, status: 2 }, response.data[m].email);
+                }
+            }
+        }, function (error) {
+            console.log('Unable to change attendance:', error);
+            return {};
+        });
+
+        return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
     }
 
   };

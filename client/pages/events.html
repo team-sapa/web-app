@@ -10,6 +10,8 @@
             <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
             <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
             <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
+            <input type="number" class="form-control" placeholder="penalty (positive number)" ng-model="newEvent.penalty">
+            <input type="number" class="form-control" placeholder="max attendees (0 for no max)" ng-model="newEvent.max">
             <div class="input-group-append">
                 <button class="btn btn-light" type="button" ng-click="createEvent(newEvent)">
                     Add Event
