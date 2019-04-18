@@ -115,6 +115,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             newEvent.penalty = (newEvent.penalty != null) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
             newEvent.max = (newEvent.max != null) ? (newEvent.max) : ($scope.selectedEvent.max);
             Main.updateEvent(newEvent).then(function (response) {
+                $scope.message = response.data.msg;
                 clearFields();
                 $scope.selectedEvent = response.data;
                 $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,

@@ -8,19 +8,26 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
         if (email) {
             $http.get('/members/').then(function (response) {
+                var found = false;
+
                 for (var m = 0; m < response.data.length; ++m) {
-                    console.log(response.data[m].email);
                     if (response.data[m].email == email) {
                         event.user = response.data[m]._id;
+                        found = true;
                         break;
                     }
+                }
+
+                if (!found) {
+                    console.log('email doesnt exist');
+                    return { msg: 'email doesnt exist' };
                 }
             }, function (error) {
                 console.log('Unable to change attendance:', error);
                 return {};
             });
         }
-        console.log(event.user);
+        
         return $http.post('/events/' + event._id, event);
     }
 
