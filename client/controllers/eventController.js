@@ -2,6 +2,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
     function ($scope, Main) {
         $scope.cardsPerRow = 8;
         $scope.query = {};
+        $scope.newEvent = {};
 
         // check & set access level/auth token
         if (Main.isLoggedIn()) {
@@ -40,13 +41,14 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         function clearFields() {
-            newEvent.name = '';
-            newEvent.date = null;
-            newEvent.info = '';
-            newEvent.type = '';
-            newEvent.points = null;
-            newEvent.penalty = null;
-            newEvent.max = null;
+            $scope.newEvent.name = '';
+            $scope.newEvent.date = null;
+            $scope.newEvent.info = '';
+            $scope.newEvent.type = '';
+            $scope.newEvent.points = null;
+            $scope.newEvent.penalty = null;
+            $scope.newEvent.max = null;
+            email = null;
         }
         
         Main.infoEvent(Main.getEvent()).then(function (response) {
@@ -109,9 +111,9 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             newEvent.date = (newEvent.date) ? (newEvent.date) : ($scope.selectedEvent.date);
             newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
             newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
-            newEvent.points = (newEvent.points) ? (newEvent.points) : ($scope.selectedEvent.points);
-            newEvent.penalty = (newEvent.penalty) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
-            newEvent.max = (newEvent.max) ? (newEvent.max) : ($scope.selectedEvent.max);
+            newEvent.points = (newEvent.points != null) ? (newEvent.points) : ($scope.selectedEvent.points);
+            newEvent.penalty = (newEvent.penalty != null) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
+            newEvent.max = (newEvent.max != null) ? (newEvent.max) : ($scope.selectedEvent.max);
             Main.updateEvent(newEvent).then(function (response) {
                 clearFields();
                 $scope.selectedEvent = response.data;
@@ -124,7 +126,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         $scope.deleteEvent = function (id) {
-            Main.deleteEvent(id).then(function (response) {
+            Main.deleteEvent(id, $scope.selectedEvent).then(function (response) {
                 $scope.selectedEvent = { name: 'EVENT DELETED' };
             }, function (error) {
                 console.log('Unable to delete event:', error);
@@ -145,6 +147,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, email).then(function (response) {
                 $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
                 $scope.selectedEvent = response.data;
+                clearFields();
             }, function (error) {
                 console.log('Unable to change attendance:', error);
             })
