@@ -20,7 +20,7 @@ var mongoose = require('mongoose'),
         var eventId = req.event._id;
         var presence = req.body.status;
         var points = req.event.points;
-        var penalty = req.event.penalty;
+        var penalty = req.event.penalty; //positive
         var current = req.event.current;
         //GET CURRENT LOGGED IN MEMBER
         /*jwt.verify(req.body.token, process.env.secret, (err, authData) => {
@@ -41,7 +41,9 @@ var mongoose = require('mongoose'),
                                 //print and send error
                                 res.status(404).send(error);
                             } else {
-                                Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (document.present) ? (-points) : (penalty) } }); //TODO: fix these
+                                Member.findOneAndUpdate({ _id: memberID },
+                                    { $inc: { points: (document.present) ? (-points) : (penalty) },
+                                    $pull: { events: eventId, absent: eventId } });
                                 Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
                                     if (e) {
                                         //print and send error
@@ -65,15 +67,37 @@ var mongoose = require('mongoose'),
                             res.status(400).send(err);
                         } else {
                             if (document) { //update old
-                                Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (presence > 0) ? (points + penalty) : (-penalty - points) } }); //TODO: fix these
-                                Event.findOneAndUpdate({ _id: eventId }, { current: (presence > 0) ? (current + 1) : (current - 1) }, { new: true }, function (e, d) {
-                                    if (e) {
-                                        //print and send error
-                                        res.status(404).send(e);
-                                    } else {
-                                        res.json(d);
-                                    }
-                                });
+                                if (document.present && presence == 0) { //was present, now absent
+                                    Member.findOneAndUpdate({ _id: memberID },
+                                        {
+                                            $inc: { points: (-points - penalty) },
+                                            $pull: { events: eventId },
+                                            $push: { absent: eventId }
+                                        });
+                                    Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
+                                        if (e) {
+                                            //print and send error
+                                            res.status(404).send(e);
+                                        } else {
+                                            res.json(d);
+                                        }
+                                    });
+                                } else if (!document.present && presence > 0) { //was absent, now present
+                                    Member.findOneAndUpdate({ _id: memberID },
+                                        {
+                                            $inc: { points: (points + penalty) },
+                                            $pull: { absent: eventId },
+                                            $push: { events: eventId }
+                                        });
+                                    Event.findOneAndUpdate({ _id: eventId }, { current: (current + 1) }, { new: true }, function (e, d) {
+                                        if (e) {
+                                            //print and send error
+                                            res.status(404).send(e);
+                                        } else {
+                                            res.json(d);
+                                        }
+                                    });
+                                }
                             } else { //make new if doesn't exist
                                 //CREATE ATTENDANCE DOC
                                 var attend = new Attendance(att);
@@ -87,8 +111,8 @@ var mongoose = require('mongoose'),
                                         //UPDATE MEMBER POINTS AND ADD EVENT TO MEMBER
                                         if (presence > 0) { //present
                                             Member.findOneAndUpdate({ _id: memberID },
-                                                { $inc: { points: points } }, //TODO: fix these
-                                                { $push: { events: eventId } });
+                                                { $inc: { points: points },
+                                                $push: { events: eventId } });
                                             Event.findOneAndUpdate({ _id: eventId }, { current: (current) ? (current + 1) : (1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error
@@ -99,9 +123,9 @@ var mongoose = require('mongoose'),
                                             });
                                         } else { //absent
                                             Member.findOneAndUpdate({ _id: memberID },
-                                                { $inc: { points: -penalty } }, //TODO: fix these
-                                                { $push: { absent: eventId } });
-                                            Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
+                                                { $inc: { points: -penalty },
+                                                $push: { absent: eventId } });
+                                            Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error
                                                     res.status(404).send(e);
