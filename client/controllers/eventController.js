@@ -50,15 +50,36 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             $scope.newEvent.max = null;
             email = null;
         }
-        
+
+        function getMembers() {
+            Main.list().then(function (r) {
+                $scope.members = r.data;
+
+                for (var m = 0; m < $scope.members.length; ++m) {
+                    if ($scope.members[m].events.includes($scope.selectedEvent._id)) {
+                        $scope.members[m].attStat = 'Present';
+                    } else if ($scope.members[m].absent.includes($scope.selectedEvent._id)) {
+                        $scope.members[m].attStat = 'Absent';
+                    } else {
+                        $scope.members[m].attStat = 'Excused';
+                    }
+                }
+            }, function (e) {
+                console.log('Unable to get members:', e);
+            });
+        }
+
         Main.infoEvent(Main.getEvent()).then(function (response) {
-            $scope.selectedEvent = response.data;
-            $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
-                $scope.selectedEvent.date.substring(8, 10));
-            $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            if (response) {
+                $scope.selectedEvent = response.data;
+                $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
+                    $scope.selectedEvent.date.substring(8, 10));
+                $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                getMembers();
+            }
         }, function (error) {
             console.log('Unable to get event:', error);
-        })
+        });
 
         Main.listEvents().then(reList, function (error) {
             console.log('Unable to retrieve events:', error);
@@ -115,6 +136,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             newEvent.penalty = (newEvent.penalty != null) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
             newEvent.max = (newEvent.max != null) ? (newEvent.max) : ($scope.selectedEvent.max);
             Main.updateEvent(newEvent).then(function (response) {
+                $scope.message = response.data.msg;
                 clearFields();
                 $scope.selectedEvent = response.data;
                 $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
@@ -148,6 +170,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
                 $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
                 $scope.selectedEvent = response.data;
                 clearFields();
+                getMembers();
             }, function (error) {
                 console.log('Unable to change attendance:', error);
             })
