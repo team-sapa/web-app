@@ -44,7 +44,7 @@ var mongoose = require('mongoose'),
                                 Member.findOneAndUpdate({ _id: memberID },
                                     { $inc: { points: (document.present) ? (-points) : (penalty) },
                                     $pull: { events: eventId, absent: eventId } });
-                                Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
+                                Event.findOneAndUpdate({ _id: eventId }, { current: (document.present) ? (current - 1) : (current) }, { new: true }, function (e, d) {
                                     if (e) {
                                         //print and send error
                                         res.status(404).send(e);
@@ -54,6 +54,8 @@ var mongoose = require('mongoose'),
                                 });
                             }
                         });
+
+                        return;
                     }
 
                     var att = {
@@ -101,7 +103,6 @@ var mongoose = require('mongoose'),
                             } else { //make new if doesn't exist
                                 //CREATE ATTENDANCE DOC
                                 var attend = new Attendance(att);
-                                console.log(attend);
                                 //SAVE ATTENDANCE DOC
                                 attend.save((err) => {
                                     if (err) {

@@ -2,6 +2,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
     function ($scope, Main) {
         $scope.cardsPerRow = 8;
         $scope.query = {};
+        $scope.newEvent = {};
 
         // check & set access level/auth token
         if (Main.isLoggedIn()) {
@@ -40,13 +41,14 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         function clearFields() {
-            newEvent.name = '';
-            newEvent.date = null;
-            newEvent.info = '';
-            newEvent.type = '';
-            newEvent.points = null;
-            newEvent.penalty = null;
-            newEvent.max = null;
+            $scope.newEvent.name = '';
+            $scope.newEvent.date = null;
+            $scope.newEvent.info = '';
+            $scope.newEvent.type = '';
+            $scope.newEvent.points = null;
+            $scope.newEvent.penalty = null;
+            $scope.newEvent.max = null;
+            email = null;
         }
         
         Main.infoEvent(Main.getEvent()).then(function (response) {
@@ -145,6 +147,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, email).then(function (response) {
                 $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
                 $scope.selectedEvent = response.data;
+                clearFields();
             }, function (error) {
                 console.log('Unable to change attendance:', error);
             })

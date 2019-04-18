@@ -27,6 +27,21 @@
                 </button>
             </div>
         </div>
+        <div class="input-group mb-3" ng-if="accessLevel == 2">
+            <label>Set Attendance</label>
+            <input type="text" class="form-control" placeholder="email" ng-model="email">
+            <div class="input-group-append">
+                <button class="btn btn-success" type="button" ng-click="signUp(1, email)">
+                    Present
+                </button>
+                <button class="btn btn-warning" type="button" ng-click="signUp(2, email)">
+                    Excused
+                </button>
+                <button class="btn btn-danger" type="button" ng-click="signUp(0, email)">
+                    Absent
+                </button>
+            </div>
+        </div>
         <button class="btn btn-success" type="button" ng-click="signUp(1, null)">
             Sign Up
         </button>

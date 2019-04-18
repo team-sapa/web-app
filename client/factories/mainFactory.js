@@ -1,4 +1,29 @@
 angular.module('main', []).factory('Main', function ($http, $window) {
+    function upAtt(event, email) {
+        console.log(event);
+        console.log(email);
+        var user = JSON.parse(localStorage.getItem('user'));
+        event.user = user._id;
+        event.level = user.level;
+
+        if (email) {
+            $http.get('/members/').then(function (response) {
+                for (var m = 0; m < response.data.length; ++m) {
+                    console.log(response.data[m].email);
+                    if (response.data[m].email == email) {
+                        event.user = response.data[m]._id;
+                        break;
+                    }
+                }
+            }, function (error) {
+                console.log('Unable to change attendance:', error);
+                return {};
+            });
+        }
+        console.log(event.user);
+        return $http.post('/events/' + event._id, event);
+    }
+
   var methods = {
 
 
@@ -84,30 +109,11 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     },
 
     createEvent: function (newEvent) {
-      console.log(newEvent);
       return $http.post('/events/', newEvent);
     },
 
       updateAttend: function (event, email) {
-          var user = JSON.parse(localStorage.getItem('user'));
-          event.user = user._id;
-          event.level = user.level;
-
-          if (email) {
-              list().then(function (response) {
-                  for (var m = 0; m < response.data.length; ++m) {
-                      if (response.data[m].email == email) {
-                          event.user = response.data[m]._id;
-                          break;
-                      }
-                  }
-              }, function (error) {
-                  console.log('Unable to change attendance:', error);
-                  return {};
-              });
-          }
-          
-          return $http.post('/events/' + event._id, event);
+          return upAtt(event, email);
       },
 
 
@@ -129,10 +135,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     // delete member
     
     deleteEvent: function (eventID) {
-        list().then(function (response) {
+        $http.get('/members/').then(function (response) {
             for (var m = 0; m < response.data.length; ++m) {
                 if (response.data[m].events.includes(eventID) || response.data[m].absent.includes(eventID)) {
-                    updateAttend({ _id: $scope.selectedEvent._id, status: 2 }, response.data[m].email);
+                    upAtt({ _id: $scope.selectedEvent._id, status: 2 }, response.data[m].email);
                 }
             }
         }, function (error) {
