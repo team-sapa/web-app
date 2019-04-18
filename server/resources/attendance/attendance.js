@@ -32,18 +32,22 @@ var mongoose = require('mongoose'),
                 var memberID = (authData.member.userLevel == 1) ? (authData.member.memberID) : (req.event.member);*/
                 var memberID = req.body.user;
                 var level = req.body.level;
-
+        
                 if (level >= 1) {
                     if (presence == 2) {
                         //remove if excused
                         Attendance.findOneAndRemove({ eventID: eventId, userID: memberID }, function (error, document) {
-                            if (error) {
+                            if (error || !document) {
                                 //print and send error
                                 res.status(404).send(error);
                             } else {
                                 Member.findOneAndUpdate({ _id: memberID },
                                     { $inc: { points: (document.present) ? (-points) : (penalty) },
-                                    $pull: { events: eventId, absent: eventId } });
+                                    $pull: { events: eventId, absent: eventId } }, {new:true},
+                                    function (e, d) {
+                                        console.log(e);
+                                        console.log(d);
+                                    });
                                 Event.findOneAndUpdate({ _id: eventId }, { current: (document.present) ? (current - 1) : (current) }, { new: true }, function (e, d) {
                                     if (e) {
                                         //print and send error
@@ -75,6 +79,10 @@ var mongoose = require('mongoose'),
                                             $inc: { points: (-points - penalty) },
                                             $pull: { events: eventId },
                                             $push: { absent: eventId }
+                                        }, { new: true },
+                                        function (e, d) {
+                                            console.log(e);
+                                            console.log(d);
                                         });
                                     Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
                                         if (e) {
@@ -90,6 +98,10 @@ var mongoose = require('mongoose'),
                                             $inc: { points: (points + penalty) },
                                             $pull: { absent: eventId },
                                             $push: { events: eventId }
+                                        }, { new: true },
+                                        function (e, d) {
+                                            console.log(e);
+                                            console.log(d);
                                         });
                                     Event.findOneAndUpdate({ _id: eventId }, { current: (current + 1) }, { new: true }, function (e, d) {
                                         if (e) {
@@ -113,7 +125,11 @@ var mongoose = require('mongoose'),
                                         if (presence > 0) { //present
                                             Member.findOneAndUpdate({ _id: memberID },
                                                 { $inc: { points: points },
-                                                $push: { events: eventId } });
+                                                $push: { events: eventId } }, {new:true},
+                                                function (e, d) {
+                                                    console.log(e);
+                                                    console.log(d);
+                                                });
                                             Event.findOneAndUpdate({ _id: eventId }, { current: (current) ? (current + 1) : (1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error
@@ -125,7 +141,11 @@ var mongoose = require('mongoose'),
                                         } else { //absent
                                             Member.findOneAndUpdate({ _id: memberID },
                                                 { $inc: { points: -penalty },
-                                                $push: { absent: eventId } });
+                                                $push: { absent: eventId } }, {new:true},
+                                                function (e, d) {
+                                                    console.log(e);
+                                                    console.log(d);
+                                                });
                                             Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error

@@ -111,9 +111,9 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             newEvent.date = (newEvent.date) ? (newEvent.date) : ($scope.selectedEvent.date);
             newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
             newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
-            newEvent.points = (newEvent.points) ? (newEvent.points) : ($scope.selectedEvent.points);
-            newEvent.penalty = (newEvent.penalty) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
-            newEvent.max = (newEvent.max) ? (newEvent.max) : ($scope.selectedEvent.max);
+            newEvent.points = (newEvent.points != null) ? (newEvent.points) : ($scope.selectedEvent.points);
+            newEvent.penalty = (newEvent.penalty != null) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
+            newEvent.max = (newEvent.max != null) ? (newEvent.max) : ($scope.selectedEvent.max);
             Main.updateEvent(newEvent).then(function (response) {
                 clearFields();
                 $scope.selectedEvent = response.data;
@@ -126,7 +126,7 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         $scope.deleteEvent = function (id) {
-            Main.deleteEvent(id).then(function (response) {
+            Main.deleteEvent(id, $scope.selectedEvent).then(function (response) {
                 $scope.selectedEvent = { name: 'EVENT DELETED' };
             }, function (error) {
                 console.log('Unable to delete event:', error);

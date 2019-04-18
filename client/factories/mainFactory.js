@@ -134,11 +134,11 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     // DELETE requests
     // delete member
     
-    deleteEvent: function (eventID) {
+    deleteEvent: function (eventID, selectedEvent) {
         $http.get('/members/').then(function (response) {
             for (var m = 0; m < response.data.length; ++m) {
                 if (response.data[m].events.includes(eventID) || response.data[m].absent.includes(eventID)) {
-                    upAtt({ _id: $scope.selectedEvent._id, status: 2 }, response.data[m].email);
+                    upAtt({ _id: selectedEvent._id, status: 2 }, response.data[m].email);
                 }
             }
         }, function (error) {
