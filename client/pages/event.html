@@ -9,30 +9,48 @@
         <p ng-if="selectedEvent.max > 0">{{selectedEvent.current}} out of {{selectedEvent.max}} Attendees</p>
         <p>{{selectedEvent.info}}</p>
         <p>Tags: {{selectedEvent.type}}</p>
-        <div class="input-group mb-3" ng-if="accessLevel == 2">
-            <label>Manage Event</label>
-            <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
-            <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
-            <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
-            <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
-            <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
-            <input type="number" class="form-control" placeholder="penalty (positive number)" ng-model="newEvent.penalty">
-            <input type="number" class="form-control" placeholder="max attendees (0 for no max)" ng-model="newEvent.max">
-            <div class="input-group-append">
-                <button class="btn btn-success" type="button" ng-click="updateEvent(newEvent)">
-                    Update Event
-                </button>
-                <button class="btn btn-danger" type="button" ng-click="deleteEvent(selectedEvent._id)">
-                    Delete Event
-                </button>
-            </div>
-        </div>
-        <button class="btn btn-success" type="button" ng-click="signUp(1, null, null)">
+        <button class="btn btn-success" type="button" ng-click="signUp(1, null)">
             Sign Up
         </button>
-        <button class="btn btn-light" type="button" ng-click="signUp(2, null, null)">
+        <button class="btn btn-light" type="button" ng-click="signUp(2, null)">
             Withdraw
         </button>
         <p>{{message}}</p>
+        <div ng-if="accessLevel == 2">
+            <div class="input-group mb-3">
+                <label>Manage Event</label>
+                <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">
+                <input type="date" class="form-control" placeholder="date" ng-model="newEvent.date">
+                <input type="text" class="form-control" placeholder="info" ng-model="newEvent.info">
+                <input type="text" class="form-control" placeholder="type" ng-model="newEvent.type">
+                <input type="number" class="form-control" placeholder="points" ng-model="newEvent.points">
+                <input type="number" class="form-control" placeholder="penalty (positive number)" ng-model="newEvent.penalty">
+                <input type="number" class="form-control" placeholder="max attendees (0 for no max)" ng-model="newEvent.max">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" ng-click="updateEvent(newEvent)">
+                        Update Event
+                    </button>
+                    <button class="btn btn-danger" type="button" ng-click="deleteEvent(selectedEvent._id)">
+                        Delete Event
+                    </button>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <label>Set Attendance</label>
+                <input type="text" class="form-control" placeholder="email" ng-model="email">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" ng-click="signUp(1, email)">
+                        Present
+                    </button>
+                    <button class="btn btn-warning" type="button" ng-click="signUp(2, email)">
+                        Excused
+                    </button>
+                    <button class="btn btn-danger" type="button" ng-click="signUp(0, email)">
+                        Absent
+                    </button>
+                </div>
+            </div>
+            <p ng-repeat="member in members">{{member.contactInfo.firstName}} {{member.contactInfo.lastName}} ({{member.email}}): {{member.attStat}}</p>
+        </div>
     </div>
 </div>

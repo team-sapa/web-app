@@ -254,13 +254,14 @@ exports.updateLevel = (req, res) => {
 //LIST ALL MEMBERS
 exports.list = (req, res) => {
   Member.find({}, (err, member) => {
-    if (err) {
-      console.log(err);
-      res.status(404).send(err);
-    }
-    else
-      res.json(member);
-    console.log("Member List Retrieved")
+      if (err) {
+          console.log(err);
+          res.status(404).send(err);
+      }
+      else {
+          res.json(member);
+          console.log("Member List Retrieved");
+      }
   }).sort({ code: 1 });
 };
 

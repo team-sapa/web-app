@@ -20,7 +20,7 @@ var mongoose = require('mongoose'),
         var eventId = req.event._id;
         var presence = req.body.status;
         var points = req.event.points;
-        var penalty = req.event.penalty;
+        var penalty = req.event.penalty; //positive
         var current = req.event.current;
         //GET CURRENT LOGGED IN MEMBER
         /*jwt.verify(req.body.token, process.env.secret, (err, authData) => {
@@ -32,26 +32,36 @@ var mongoose = require('mongoose'),
                 var memberID = (authData.member.userLevel == 1) ? (authData.member.memberID) : (req.event.member);*/
                 var memberID = req.body.user;
                 var level = req.body.level;
+        
+                if (level >= 1) {
+                    if (presence == 2) {
+                        //remove if excused
+                        Attendance.findOneAndRemove({ eventID: eventId, userID: memberID }, function (error, document) {
+                            if (error || !document) {
+                                //print and send error
+                                res.status(404).send(error);
+                            } else {
+                                Member.findOneAndUpdate({ _id: memberID },
+                                    { $inc: { points: (document.present) ? (-points) : (penalty) },
+                                    $pull: { events: eventId, absent: eventId } }, {new:true},
+                                    function (e, d) {
+                                        console.log(e);
+                                        console.log(d);
+                                    });
+                                Event.findOneAndUpdate({ _id: eventId }, { current: (document.present) ? (current - 1) : (current) }, { new: true }, function (e, d) {
+                                    if (e) {
+                                        //print and send error
+                                        res.status(404).send(e);
+                                    } else {
+                                        res.json(d);
+                                    }
+                                });
+                            }
+                        });
 
-                if (level >= 2 && presence == 2) {
-                    //remove if excused
-                    Attendance.findOneAndRemove({ eventID: eventId, userID: memberID }, function (error, document) {
-                        if (error) {
-                            //print and send error
-                            res.status(404).send(error);
-                        } else {
-                            Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (document.present) ? (-points) : (penalty) } }); //TODO: fix these
-                            Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
-                                if (e) {
-                                    //print and send error
-                                    res.status(404).send(e);
-                                } else {
-                                    res.json(d);
-                                }
-                            });
-                        }
-                    });
-                } else if (level >= 1) {
+                        return;
+                    }
+
                     var att = {
                         eventID: eventId,
                         userID: memberID,
@@ -63,19 +73,48 @@ var mongoose = require('mongoose'),
                             res.status(400).send(err);
                         } else {
                             if (document) { //update old
-                                Member.findOneAndUpdate({ _id: memberID }, { $inc: { points: (presence > 0) ? (points + penalty) : (-penalty - points) } }); //TODO: fix these
-                                Event.findOneAndUpdate({ _id: eventId }, { current: (presence > 0) ? (current + 1) : (current - 1) }, { new: true }, function (e, d) {
-                                    if (e) {
-                                        //print and send error
-                                        res.status(404).send(e);
-                                    } else {
-                                        res.json(d);
-                                    }
-                                });
+                                if (document.present && presence == 0) { //was present, now absent
+                                    Member.findOneAndUpdate({ _id: memberID },
+                                        {
+                                            $inc: { points: (-points - penalty) },
+                                            $pull: { events: eventId },
+                                            $push: { absent: eventId }
+                                        }, { new: true },
+                                        function (e, d) {
+                                            console.log(e);
+                                            console.log(d);
+                                        });
+                                    Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
+                                        if (e) {
+                                            //print and send error
+                                            res.status(404).send(e);
+                                        } else {
+                                            res.json(d);
+                                        }
+                                    });
+                                } else if (!document.present && presence > 0) { //was absent, now present
+                                    Member.findOneAndUpdate({ _id: memberID },
+                                        {
+                                            $inc: { points: (points + penalty) },
+                                            $pull: { absent: eventId },
+                                            $push: { events: eventId }
+                                        }, { new: true },
+                                        function (e, d) {
+                                            console.log(e);
+                                            console.log(d);
+                                        });
+                                    Event.findOneAndUpdate({ _id: eventId }, { current: (current + 1) }, { new: true }, function (e, d) {
+                                        if (e) {
+                                            //print and send error
+                                            res.status(404).send(e);
+                                        } else {
+                                            res.json(d);
+                                        }
+                                    });
+                                }
                             } else { //make new if doesn't exist
                                 //CREATE ATTENDANCE DOC
                                 var attend = new Attendance(att);
-                                console.log(attend);
                                 //SAVE ATTENDANCE DOC
                                 attend.save((err) => {
                                     if (err) {
@@ -85,8 +124,12 @@ var mongoose = require('mongoose'),
                                         //UPDATE MEMBER POINTS AND ADD EVENT TO MEMBER
                                         if (presence > 0) { //present
                                             Member.findOneAndUpdate({ _id: memberID },
-                                                { $inc: { points: points } }, //TODO: fix these
-                                                { $push: { events: eventId } });
+                                                { $inc: { points: points },
+                                                $push: { events: eventId } }, {new:true},
+                                                function (e, d) {
+                                                    console.log(e);
+                                                    console.log(d);
+                                                });
                                             Event.findOneAndUpdate({ _id: eventId }, { current: (current) ? (current + 1) : (1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error
@@ -97,9 +140,13 @@ var mongoose = require('mongoose'),
                                             });
                                         } else { //absent
                                             Member.findOneAndUpdate({ _id: memberID },
-                                                { $inc: { points: -penalty } }, //TODO: fix these
-                                                { $push: { absent: eventId } });
-                                            Event.findOneAndUpdate({ _id: eventId }, { current: current - 1 }, { new: true }, function (e, d) {
+                                                { $inc: { points: -penalty },
+                                                $push: { absent: eventId } }, {new:true},
+                                                function (e, d) {
+                                                    console.log(e);
+                                                    console.log(d);
+                                                });
+                                            Event.findOneAndUpdate({ _id: eventId }, { current: (current - 1) }, { new: true }, function (e, d) {
                                                 if (e) {
                                                     //print and send error
                                                     res.status(404).send(e);
