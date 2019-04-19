@@ -207,6 +207,27 @@ exports.login = (req, res) => {
     });
 };
 
+//REMOVES MEMBER BY ID
+exports.remove = (req, res) => {
+  var id = req.params.memberID;
+  console.log("Removing member: " + id);
+
+  /*
+  Member.findByIdAndRemove(req.body, (err, member) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+    else {
+      res.json({
+        success: true,
+        message: 'Authentication successful!',
+      });
+    }
+  });
+  */
+};
+
 //LIST ALL MEMBERS
 exports.list = (req, res) => {
   Member.find({}, (err, member) => {
@@ -356,7 +377,7 @@ exports.registerByID = (req, res, next, id) => {
 
 //MIDDLEWARE - attatchhes token to the req object
 exports.verifyToken = function (req, res, next) {
-    console.log('verifying token');
+  console.log('verifying token');
   //Token Format
   //Authorization: Bearer <access_token>
 
@@ -373,7 +394,7 @@ exports.verifyToken = function (req, res, next) {
 
   }
   else {
-      console.log(typeof bearerHeader);
+    console.log(typeof bearerHeader);
     res.json("Authorization Error")
   }
 }

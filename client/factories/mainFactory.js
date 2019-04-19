@@ -88,24 +88,24 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.post('/events/', newEvent);
     },
 
-      updateAttend: function (event, firstName, lastName) {
-          if (firstName && lastName) {
-              list().then(function (response) {
-                  for (var m = 0; m < response.data.length; ++m) {
-                      if (response.data[m].contactInfo.firstName == firstName && response.data[m].contactInfo.lastName == lastName) {
-                          break;
-                      }
-                  }
-              }, function (error) {
-                  console.log('Unable to change attendance:', error);
-              });
+    updateAttend: function (event, firstName, lastName) {
+      if (firstName && lastName) {
+        list().then(function (response) {
+          for (var m = 0; m < response.data.length; ++m) {
+            if (response.data[m].contactInfo.firstName == firstName && response.data[m].contactInfo.lastName == lastName) {
+              break;
+            }
           }
+        }, function (error) {
+          console.log('Unable to change attendance:', error);
+        });
+      }
 
-          var user = JSON.parse(localStorage.getItem('user'));
-          event.user = user._id;
-          event.level = user.level;
-          return $http.post('/events/' + event._id, event);
-      },
+      var user = JSON.parse(localStorage.getItem('user'));
+      event.user = user._id;
+      event.level = user.level;
+      return $http.post('/events/' + event._id, event);
+    },
 
 
     // PATCH requests
@@ -113,8 +113,8 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       console.log(updatedMember);
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
     },
-    
-    // update member info
+
+    // update member level
 
     updateEvent: function (event) {
       return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
@@ -123,8 +123,12 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
 
     // DELETE requests
-    // delete member
-    
+    removeMember: function (memberID) {
+      console.log("Removing member: " + memberID);
+      let member = { id: memberID };
+      return $http({ method: 'DELETE', url: '/members/' + memberID, data: member });
+    },
+
     deleteEvent: function (eventID) {
       //TODO: delete attendance objects
       return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
