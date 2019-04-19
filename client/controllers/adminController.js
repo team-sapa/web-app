@@ -21,10 +21,22 @@ angular.module('sapaApp').controller('adminController', ['$scope', 'Main',
     $scope.removeMember = function (id) {
       Main.removeMember(id).then(function (response) {
         if (response.data.success) {
-          console.log("Member removed.");
+          console.log(response.data.message);
+          window.location.reload();
         }
       }, function (error) {
-        console.log('Unable to retrieve members:', error);
+        console.log('Unable to remove member:', error);
+      });
+    }
+
+    // update member level
+    $scope.updateMemberLevel = function (updatedMember) {
+      Main.updateMemberLevel(updatedMember).then(function (response) {
+        if (response.data.success) {
+          console.log("Member level changed.");
+        }
+      }, function (error) {
+        console.log('Unable to change member level:', error);
       });
     }
 

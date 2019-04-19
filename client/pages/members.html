@@ -93,7 +93,7 @@
           </div>
 
           <div class="col-sm-4 editMemberContainer">
-            <select class="form-control" id="accessLevel" ng-model="x.level">
+            <select class="form-control" id="accessLevel" ng-model="x.level" ng-change="updateMemberLevel(x)">
               <option value="1" selected>Member</option>
               <option value="2">Admin</option>
             </select>

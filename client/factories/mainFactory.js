@@ -114,7 +114,10 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
     },
 
-    // update member level
+    updateMemberLevel: function (updatedMember) {
+      console.log("Setting level of " + updatedMember._id + " to " + updatedMember.level);
+      return $http({ method: 'PATCH', url: '/members/level/' + updatedMember._id, data: updatedMember });
+    },
 
     updateEvent: function (event) {
       return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
