@@ -60,6 +60,12 @@
     border-radius: 20px;
 }
 
+.editMemberContainer{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
 .homeContainer{
     background-color: #fff;
 }

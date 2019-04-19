@@ -124,13 +124,17 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       },
 
 
+
     // PATCH requests
     update: function (updatedMember) {
       console.log(updatedMember);
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
     },
-    
-    // update member info
+
+    updateMemberLevel: function (updatedMember) {
+      console.log("Setting level of " + updatedMember._id + " to " + updatedMember.level);
+      return $http({ method: 'PATCH', url: '/members/level/' + updatedMember._id, data: updatedMember });
+    },
 
     updateEvent: function (event) {
       return $http({ method: 'PATCH', url: '/events/' + event._id, data: event });
@@ -139,7 +143,11 @@ angular.module('main', []).factory('Main', function ($http, $window) {
 
 
     // DELETE requests
-    // delete member
+    removeMember: function (memberID) {
+      console.log("Removing member: " + memberID);
+      let member = { id: memberID };
+      return $http({ method: 'DELETE', url: '/members/' + memberID, data: member });
+    },
     
     deleteEvent: function (eventID, selectedEvent) {
         $http.get('/members/').then(function (response) {
@@ -154,6 +162,7 @@ angular.module('main', []).factory('Main', function ($http, $window) {
         });
 
         return $http({ method: 'DELETE', url: '/events/' + eventID, data: eventID });
+
     }
 
   };

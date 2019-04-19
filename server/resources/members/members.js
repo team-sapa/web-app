@@ -207,6 +207,50 @@ exports.login = (req, res) => {
     });
 };
 
+//REMOVES MEMBER BY ID
+exports.remove = (req, res) => {
+  var id = req.params.memberID;
+  console.log("Removing member: " + id);
+
+  Member.findByIdAndRemove(id, (err, member) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+    else {
+      console.log("Member removed: " + id);
+      res.json({
+        success: true,
+        message: 'Member removed',
+      });
+    }
+  });
+};
+
+//UPDATES MEMBER LEVEL
+exports.updateLevel = (req, res) => {
+  let newLevel = req.body.level;
+  let id = req.body._id;
+  console.log(id);
+  console.log(newLevel);
+
+  Member.findByIdAndUpdate(id, { level: newLevel }, { new: true }, function (err, member) {
+    if (err) {
+      console.log(err);
+      //console.log(err);
+      res.status(404);
+    }
+    else {
+      console.log("Member level updated.");
+      res.json({
+        success: true,
+        message: 'Member level updated',
+        member: member
+      });
+    }
+  });
+};
+
 //LIST ALL MEMBERS
 exports.list = (req, res) => {
   Member.find({}, (err, member) => {
@@ -357,7 +401,7 @@ exports.registerByID = (req, res, next, id) => {
 
 //MIDDLEWARE - attatchhes token to the req object
 exports.verifyToken = function (req, res, next) {
-    console.log('verifying token');
+  console.log('verifying token');
   //Token Format
   //Authorization: Bearer <access_token>
 
@@ -374,7 +418,7 @@ exports.verifyToken = function (req, res, next) {
 
   }
   else {
-      console.log(typeof bearerHeader);
+    console.log(typeof bearerHeader);
     res.json("Authorization Error")
   }
 }
