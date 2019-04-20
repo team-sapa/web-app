@@ -1,6 +1,6 @@
 angular.module('sapaApp')
-  .controller('mainController', ['$scope', 'Main',
-    function ($scope, Main) {
+  .controller('mainController', ['$scope', '$location', '$routeParams', 'Main',
+    function ($scope, $location, $routeParams, Main) {
 
 
 
@@ -52,12 +52,14 @@ angular.module('sapaApp')
             data: $scope.image.data,
             contentType: $scope.image.contentType
           }
-          updatedMember.contactInfo.profileImage = profileImage;
+          updatedMember.image = profileImage;
         }
         updatedMember.token = $scope.token;
         Main.update(updatedMember).then(function (response) {
-          $scope.member = response.data;
           if (response.data.success) {
+            $scope.member = response.data;
+            $scope.editMessage = "Updated successfully";
+            console.log($scope.member);
             //window.location.reload();
           }
         }, function (error) {
@@ -75,13 +77,19 @@ angular.module('sapaApp')
       }
 
       // return single member (by id)
-      $scope.info = function (id) {
-        Main.info(id).then(function (response) {
+      let id = $routeParams.memberID;
+      if (id) {
+        console.log(id);
+        let member = { id: id };
+        Main.info(member).then(function (response) {
           $scope.member = response.data;
+          console.log($scope.member);
         }, function (error) {
           console.log('Unable to retrieve member:', error);
         });
       }
+
+
 
       // create a member (ADMIN)
       $scope.create = function (email, accessLevel) {
@@ -174,13 +182,10 @@ angular.module('sapaApp')
       link: function (scope, el, attr, ctrl) {
         var fileReader = new $window.FileReader();
 
-        var buffer = null;
-
         fileReader.onload = function () {
           ctrl.$setViewValue(fileReader.result);
 
-          buffer = new Array(fileReader.result);
-          scope.$parent.image.data = buffer;
+          scope.$parent.image.data = fileReader.result;
 
           if ('fileLoaded' in attr) {
             scope.$eval(attr['fileLoaded']);
@@ -210,7 +215,7 @@ angular.module('sapaApp')
           if (fileType === '' || fileType === 'text') {
             fileReader.readAsText(fileName);
           } else if (fileType === 'data') {
-            fileReader.readAsArrayBuffer(fileName);
+            fileReader.readAsDataURL(fileName);
           }
         });
       }

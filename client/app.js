@@ -57,7 +57,7 @@ app.config(function ($routeProvider) {
     })
 
     // route for the profile page (anyone)
-    .when('/profile', {
+    .when('/profile/:memberID', {
       templateUrl: 'pages/profile.html',
       controller: 'mainController'
     })
@@ -67,6 +67,12 @@ app.config(function ($routeProvider) {
       templateUrl: 'pages/events.html',
       controller: 'mainController'
     })
+
+      // route for the events page (members/admins)
+      .when('/event', {
+          templateUrl: 'pages/event.html',
+          controller: 'mainController'
+      })
 
     // all other views
     .otherwise({

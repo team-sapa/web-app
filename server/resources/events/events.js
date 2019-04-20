@@ -37,7 +37,8 @@ var mongoose = require('mongoose'),
 
         //create event
         var event = new Event(req.body);
-
+        //timeslots is an array of the timeslots w/ no members
+        
         //save event
         event.save(function (err) {
             if (err) {
@@ -53,6 +54,8 @@ var mongoose = require('mongoose'),
 
     //DISPLAYS SINGLE EVENT'S INFO
     exports.info = (req, res) => {
+        //Get list of members names for each time slot
+        
         //return event
         res.json(req.event);
     };
@@ -72,24 +75,40 @@ var mongoose = require('mongoose'),
         var event = req.event;
 
         //find and update
-        Event.findOneAndUpdate({ name: event.name, date: event.date, info: event.info, type: event.type, points: event.points }, req.body, function (error, document) {
+        Event.findOneAndUpdate({ _id: event._id }, req.body, { new: true }, function (error, document) {
             if (error) {
                 //print and send error
                 res.status(404).send(error);
             } else {
-                //find updated
-                Event.findOne(req.body, function (error2, document2) {
-                    if (error2) {
-                        //print and send error
-                        res.status(404).send(error2);
-                    } else {
-                        //return updated event
-                        res.json(document2);
-                    }
-                });
+                res.json(document);
             }
         });
     };
+
+//DELETE SINGLE EVENT(ADMIN)
+exports.delete = (req, res) => {
+    //check permissions
+    /*jwt.verify(req.token, 'super secret key', (err, authData) => {
+        //if error or not admin
+        if (err || authData.member.userLevel < 2) {
+            //send error
+            res.status(403);
+        }
+    });*/
+    
+    //get event info
+    var event = req.event;
+
+    //find and update
+    Event.findOneAndRemove({ _id: event._id }, function (error, document) {
+        if (error) {
+            //print and send error
+            res.status(404).send(error);
+        } else {
+            res.json(document);
+        }
+    });
+};
 
     //MIDDLEWARE TO FIND EVENT
     exports.eventByID = (req, res, next, id) => {
