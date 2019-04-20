@@ -71,7 +71,7 @@
 
       <div class="row">
         <div class="portfolio-items">
-          <li class="animate-repeat" ng-repeat="x in members | filter: searchFilters">
+          <li class="animate-repeat" ng-repeat="x in friends | filter : searchFilters">
             <!--/.portfolio-item-->
             <div class="portfolio-item apps col-xs-12 col-md-3 single-work">
               <div class="recent-work-wrap">
@@ -82,7 +82,7 @@
                   </div>
                 </div>
               </div>
-              <center id="UserName">{{x.contactInfo.firstName}} {{x.contactInfo.lastName}}</center>
+              <center id="UserName">{{x.name}}</center>
             </div>
             <!--/.portfolio-item-->
 
