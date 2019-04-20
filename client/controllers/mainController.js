@@ -39,6 +39,7 @@ angular.module('sapaApp')
       // retrieve all members on startup
       Main.list().then(function (response) {
         $scope.members = response.data;
+        console.log($scope.members);
       }, function (error) {
         console.log('Unable to retrieve members:', error);
       });
