@@ -22,12 +22,8 @@ router.route('/')
 router.route('/:memberID')
     .get(member.info)                            //displays this members info (if member level high enough display memberlevel)
     .patch(member.update)           //allow this member to update their info (memberID same or member level high enough)
-    .delete(member.remove)
 //.get(attendance.eventList)                        //displays this members event list
 //.patch(member.verifyToken, attendance.update);   //updates this members attendance status (memberID same or member level high enough)
-
-router.route('/level/:memberID')
-    .patch(member.updateLevel)
 
 
 //Middleware to pass memberID to the route

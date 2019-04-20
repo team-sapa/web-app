@@ -1,8 +1,6 @@
 angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
     function ($scope, Main) {
         $scope.cardsPerRow = 8;
-        $scope.query = {};
-        $scope.newEvent = {};
 
         // check & set access level/auth token
         if (Main.isLoggedIn()) {
@@ -36,50 +34,9 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         function fitsFilter(event) {
-            return !$scope.query.text || event.name.toUpperCase().includes($scope.query.text.toUpperCase())
-                || event.points.toString().toUpperCase().includes($scope.query.text.toUpperCase()) || event.date2.toUpperCase().includes($scope.query.text.toUpperCase());
+            return !$scope.query || event.name.toUpperCase().includes($scope.query.toUpperCase()) || event.points.toString().toUpperCase().includes($scope.query.toUpperCase())
+                || event.date2.toUpperCase().includes($scope.query.toUpperCase());
         }
-
-        function clearFields() {
-            $scope.newEvent.name = '';
-            $scope.newEvent.date = null;
-            $scope.newEvent.info = '';
-            $scope.newEvent.type = '';
-            $scope.newEvent.points = null;
-            $scope.newEvent.penalty = null;
-            $scope.newEvent.max = null;
-            email = null;
-        }
-
-        function getMembers() {
-            Main.list().then(function (r) {
-                $scope.members = r.data;
-
-                for (var m = 0; m < $scope.members.length; ++m) {
-                    if ($scope.members[m].events.includes($scope.selectedEvent._id)) {
-                        $scope.members[m].attStat = 'Present';
-                    } else if ($scope.members[m].absent.includes($scope.selectedEvent._id)) {
-                        $scope.members[m].attStat = 'Absent';
-                    } else {
-                        $scope.members[m].attStat = 'Excused';
-                    }
-                }
-            }, function (e) {
-                console.log('Unable to get members:', e);
-            });
-        }
-
-        Main.infoEvent(Main.getEvent()).then(function (response) {
-            if (response) {
-                $scope.selectedEvent = response.data;
-                $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
-                    $scope.selectedEvent.date.substring(8, 10));
-                $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                getMembers();
-            }
-        }, function (error) {
-            console.log('Unable to get event:', error);
-        });
 
         Main.listEvents().then(reList, function (error) {
             console.log('Unable to retrieve events:', error);
@@ -102,18 +59,18 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             }
         }
 
-        $scope.showInfo = function (event) {
-            Main.setEvent(event._id);
-            window.location.href = '/#/event';
-        }
-
         // create event
         $scope.createEvent = function (newEvent) {
             Main.createEvent(newEvent).then(function (response) {
+                console.log(response);
                 Main.listEvents().then(reList, function (error) {
                     console.log('Unable to retrieve events:', error);
                 });
-                clearFields();
+                newEvent.name = '';
+                newEvent.date = null;
+                newEvent.info = '';
+                newEvent.type = '';
+                newEvent.points = null;
             }, function (error) {
                 console.log('Unable to create event:', error);
             })
@@ -126,54 +83,6 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
             });
         }
 
-        $scope.updateEvent = function (newEvent) {
-            newEvent._id = $scope.selectedEvent._id;
-            newEvent.name = (newEvent.name) ? (newEvent.name) : ($scope.selectedEvent.name);
-            newEvent.date = (newEvent.date) ? (newEvent.date) : ($scope.selectedEvent.date);
-            newEvent.info = (newEvent.info) ? (newEvent.info) : ($scope.selectedEvent.info);
-            newEvent.type = (newEvent.type) ? (newEvent.type) : ($scope.selectedEvent.type);
-            newEvent.points = (newEvent.points != null) ? (newEvent.points) : ($scope.selectedEvent.points);
-            newEvent.penalty = (newEvent.penalty != null) ? (newEvent.penalty) : ($scope.selectedEvent.penalty);
-            newEvent.max = (newEvent.max != null) ? (newEvent.max) : ($scope.selectedEvent.max);
-            Main.updateEvent(newEvent).then(function (response) {
-                $scope.message = response.data.msg;
-                clearFields();
-                $scope.selectedEvent = response.data;
-                $scope.selectedEvent.date2 = new Date($scope.selectedEvent.date.substring(0, 4), $scope.selectedEvent.date.substring(5, 7) - 1,
-                    $scope.selectedEvent.date.substring(8, 10));
-                $scope.selectedEvent.date2 = $scope.selectedEvent.date2.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-            }, function (error) {
-                console.log('Unable to update event:', error);
-            })
-        }
-
-        $scope.deleteEvent = function (id) {
-            Main.deleteEvent(id, $scope.selectedEvent).then(function (response) {
-                $scope.selectedEvent = { name: 'EVENT DELETED' };
-            }, function (error) {
-                console.log('Unable to delete event:', error);
-            })
-        }
-
-        $scope.signUp = function (stats, email) {
-            if ($scope.accessLevel < 2 && Date.now() > (new Date($scope.selectedEvent.date)).getMilliseconds()) {
-                $scope.message = 'too late to sign up';
-                return;
-            }
-
-            if ($scope.selectedEvent.current >= $scope.selectedEvent.max && $scope.selectedEvent.max > 0 && stats == 1) {
-                $scope.message = 'event is full';
-                return;
-            }
-
-            Main.updateAttend({ _id: $scope.selectedEvent._id, status: stats }, email).then(function (response) {
-                $scope.message = (stats == 0) ? ('absent') : ((stats == 1) ? ('present') : ('excused'));
-                $scope.selectedEvent = response.data;
-                clearFields();
-                getMembers();
-            }, function (error) {
-                console.log('Unable to change attendance:', error);
-            })
-        }
+        //TODO: delete and update
     }
 ]);

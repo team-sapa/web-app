@@ -23,9 +23,8 @@ var memberSchema = new Schema({
         major: [String],
         minor: [String],
         profileImage: {
-            src: String,
-            contentType: String,
-            id: String
+            data: Buffer,
+            contentType: String
         }
     },
 
@@ -40,9 +39,9 @@ var memberSchema = new Schema({
     },
 
     //Point Information
-    points: Number,
-    events: [ObjectId], //Stores links to events (present)
-    absent: [ObjectId] //Stores links to events (absent)
+    points: {
+        total: Number
+    }
 });
 
 var Member = mongoose.model('Member', memberSchema);

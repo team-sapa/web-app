@@ -3,6 +3,17 @@
 
   <link rel="stylesheet" href="css/main.css">
 
+  <div>
+    <style>
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+    <img src="images/SAPA.JPG" />
+  </div>
+
   <style>
     .topnav a.active {
       background-color: #2196F3;
@@ -37,93 +48,17 @@
     }
   </style>
 
+  <section id="portfolio_page">
 
-  <!-- ADMIN -->
-  <div class="container" ng-controller="adminController" ng-if="accessLevel == 2">
 
-    <div class="input-group mb-3" style="padding-bottom: 50px">
-      <label>Add a new Member</label>
-      <input type="text" class="form-control" placeholder="email" ng-model="newUser.email">
-      <select class="form-control" id="accessLevel" ng-model="newUser.accessLevel">
-        <option value="1" selected>Member</option>
-        <option value="2">Admin</option>
-      </select>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" ng-click="create(newUser)">Send registration
-          email</button>
-      </div>
-      <h4>{{message}}</h4>
-    </div>
-
-    <div class="center">
-      <div class="topnav">
-        <input type="text" class="form-control" placeholder="Search Members" ng-model="searchFilters">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="animate-repeat" ng-repeat="x in members | filter : searchFilters">
-        <div class="memberContainer row" ng-if="x.contactInfo.firstName">
-
-          <div class="col-sm-4 single-work">
-            <div class="recent-work-wrap">
-              <img class="profileImage img-responsive" src={{x.contactInfo.profileImage.src}} alt="">
-              <div class="overlay">
-                <div class="recent-work-inner">
-                  <a class="preview" href="#/profile/{{x._id}}" rel="prettyPhoto"><i class="fa fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-            <center id="UserName">{{x.contactInfo.firstName}} {{x.contactInfo.lastName}}</center>
-          </div>
-
-          <div class="text-left col-sm-4 memberInfoContainer">
-            <h2>Programs</h2>
-            <div ng-repeat="program in x.contactInfo.program">
-              <h4>{{program}}</h4>
-            </div>
-            <h2>Majors</h2>
-            <div ng-repeat="major in x.contactInfo.major">
-              <h4>{{major}}</h4>
-            </div>
-            <h2>Email</h2>
-            <h4>{{x.email}}</h4>
-            <h2>Office Hours</h2>
-            <h4>{{x.bioInfo.officeHours}}</h4>
-          </div>
-
-          <div class="col-sm-4 editMemberContainer">
-            <select class="form-control" id="accessLevel" ng-model="x.level" ng-change="updateMemberLevel(x)">
-              <option value="1" selected>Member</option>
-              <option value="2">Admin</option>
-            </select>
-            <button class="btn btn-outline-secondary" style='color:rgb(194, 34, 34)' data-container="body"
-              data-toggle="popover" data-placement="top"
-              data-content="Press again to confirm deletion of {{x.contactInfo.firstName}} {{x.contactInfo.lastName}}"
-              ng-click="removeMember(x._id)">Remove
-              <i class='fa fa-times'></i></button>
-          </div>
-
+    <div class="container" ng-controller="mainController">
+      <div class="center">
+        <h2>About Members</h2>
+        <div class="topnav">
+          <input type="text" class="form-control" placeholder="Search" ng-model="searchFilters">
         </div>
       </div>
-    </div>
-  </div>
 
-
-
-
-
-  <!-- NON-ADMIN -->
-  <div class="container" ng-controller="mainController" ng-if="accessLevel < 2">
-    <div class="center">
-      <div class="topnav">
-        <input type="text" class="form-control" placeholder="Search Members" ng-model="searchFilters">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="animate-repeat" ng-repeat="x in members | filter : searchFilters">
-        <div class="memberContainer row" ng-if="x.contactInfo.firstName">
 
       <ul class="portfolio-filter text-center">
         <li><a class="btn btn-default active" href="#" data-filter="*">Members</a></li>
@@ -149,29 +84,14 @@
               </div>
               <center id="UserName">{{x.contactInfo.firstName}} {{x.contactInfo.lastName}}</center>
             </div>
-            <center id="UserName">{{x.contactInfo.firstName}} {{x.contactInfo.lastName}}</center>
-          </div>
+            <!--/.portfolio-item-->
 
-          <div class="text-left col-sm-4 memberInfoContainer">
-            <h2>Programs</h2>
-            <div ng-repeat="program in x.contactInfo.program">
-              <h4>{{program}}</h4>
-            </div>
-            <h2>Majors</h2>
-            <div ng-repeat="major in x.contactInfo.major">
-              <h4>{{major}}</h4>
-            </div>
-            <h2>Email</h2>
-            <h4>{{x.email}}</h4>
-            <h2>Office Hours</h2>
-            <h4>{{x.bioInfo.officeHours}}</h4>
-          </div>
-
+          </li>
         </div>
       </div>
     </div>
-  </div>
-
+  </section>
+  <!--/#portfolio-item-->
 
   <script src="../js/jquery.js"></script>
   <script src="../js/bootstrap.min.js"></script>

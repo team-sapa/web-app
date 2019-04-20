@@ -8,9 +8,7 @@ var path = require('path'),
   //events = require('../resources/events/router'),
   //attendance = require('../resources/attendance/router');
   memberRouter = require('../resources/members/routes'),
-  eventRouter = require('../resources/events/routes'),
-  cloudinary = require('cloudinary');
-
+  eventRouter = require('../resources/events/routes');
 
 require('dotenv').config(); // to use env variables
 
@@ -25,13 +23,6 @@ module.exports.init = function () {
       console.log("\nERROR connecting to MLAB: " + err);
     }
   );
-
-  // cloudinary configuration (store images)
-  cloudinary.config({
-    cloud_name: 'dkkwlca4z',
-    api_key: '747199797639991',
-    api_secret: '7O579-mQuctl8ClFzq8dsYnnXd8'
-  });
 
   //initialize app
   var app = express();
