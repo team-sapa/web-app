@@ -1,6 +1,82 @@
 <!-- profile.html ~ To view a single member's full profile -->
-<div class="jumbotron text-center">
 
-  <h2>User Profile</h2>
+<div class="jumbotron">
+  <div class="profileContainer">
+    <div class="profileImageContainer">
+      <img class="profileImage img-responsive" src="{{member.contactInfo.profileImage.src}}">
+    </div>
 
+    <div class="profileInfoContainer">
+
+      <div>
+        <h2>{{member.contactInfo.firstName}} {{member.contactInfo.lastName}}</h2>
+      </div>
+
+      <div>
+        <h3>Programs</h3>
+        <div class="animate-repeat" ng-repeat="x in member.contactInfo.program">
+          <div>
+            <h4>{{x}}</h4>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Majors</h3>
+        <div class="animate-repeat" ng-repeat="x in member.contactInfo.major">
+          <div>
+            <h4>{{x}}</h4>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Minors</h3>
+        <div class="animate-repeat" ng-repeat="x in member.contactInfo.minor">
+          <div>
+            <h4>{{x}}</h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="profileContactInfoContainer">
+
+      <div>
+        <h3>Email</h3>
+        <h4>{{member.email}}</h4>
+      </div>
+
+      <div>
+        <h3>Office Hours</h3>
+        <h4>{{member.bioInfo.officeHours}}</h4>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="text-left profileQuestionsContainer">
+    <div class="questionContainer">
+      <h3>What did you study and why?</h3>
+      <h4>{{member.bioInfo.question1}}</h4>
+    </div>
+    <div class="questionContainer">
+      <h3>Where else have you traveled (2+ weeks)?</h3>
+      <h4>{{member.bioInfo.question2}}</h4>
+    </div>
+    <div class="questionContainer">
+      <h3>What was one of the biggest challenges you faced while
+        abroad?</h3>
+      <h4>{{member.bioInfo.question3}}</h4>
+    </div>
+    <div class="questionContainer">
+      <h3>Do you have any advice for students looking to study abroad?</h3>
+      <h4>{{member.bioInfo.question4}}</h4>
+    </div>
+    <div class="questionContainer">
+      <h3>What was an interesting experience you had while abroad?</h3>
+      <h4>{{member.bioInfo.question5}}</h4>
+    </div>
+  </div>
 </div>

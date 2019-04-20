@@ -1,10 +1,12 @@
 var Member = require('../members/schema'),
+  Attendance = require('../attendance/schema'),
   bcrypt = require('bcrypt'),
   nodemailer = require('nodemailer'),
   crypto = require('crypto'),
   async = require('async'),
-  fs = require('fs');
-jwt = require('jsonwebtoken');
+  fs = require('fs'),
+  jwt = require('jsonwebtoken'),
+  cloudinary = require('cloudinary');
 BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
 require('dotenv').config();
@@ -205,22 +207,79 @@ exports.login = (req, res) => {
     });
 };
 
-//LIST ALL MEMBERS
-exports.list = (req, res) => {
-  Member.find({}, (err, member) => {
+//REMOVES MEMBER BY ID
+exports.remove = (req, res) => {
+  var id = req.params.memberID;
+  console.log("Removing member: " + id);
+
+  Member.findByIdAndRemove(id, (err, member) => {
     if (err) {
       console.log(err);
       res.status(404).send(err);
     }
-    else
-      res.json(member);
-    console.log("Member List Retrieved")
+    else {
+      console.log("Member removed: " + id);
+      res.json({
+        success: true,
+        message: 'Member removed',
+      });
+    }
+  });
+};
+
+//UPDATES MEMBER LEVEL
+exports.updateLevel = (req, res) => {
+  let newLevel = req.body.level;
+  let id = req.body._id;
+  console.log(id);
+  console.log(newLevel);
+
+  Member.findByIdAndUpdate(id, { level: newLevel }, { new: true }, function (err, member) {
+    if (err) {
+      console.log(err);
+      //console.log(err);
+      res.status(404);
+    }
+    else {
+      console.log("Member level updated.");
+      res.json({
+        success: true,
+        message: 'Member level updated',
+        member: member
+      });
+    }
+  });
+};
+
+//LIST ALL MEMBERS
+exports.list = (req, res) => {
+  Member.find({}, (err, member) => {
+      if (err) {
+          console.log(err);
+          res.status(404).send(err);
+      }
+      else {
+          res.json(member);
+          console.log("Member List Retrieved");
+      }
   }).sort({ code: 1 });
 };
 
 //DISPLAY SINGLE MEMBER'S INFO
 exports.info = (req, res) => {
-  res.json(req.member);
+  let id = req.params.memberID;
+  console.log("ID: " + id);
+  Member.findById(id, (err, member) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+    else {
+      console.log(member);
+      res.json(member);
+    }
+
+  });
 };
 
 /*TODO:
@@ -241,25 +300,51 @@ exports.update = (req, res) => {
         console.log("Authorized Member");
         //~~~~~~UPDATE THE INFO HERE~~~~~~~
         var body = req.body;
-        console.log(body);
         var id = req.params.memberID;
-        Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
-          if (err) {
-            console.log(err.name);
-            console.log(err.code);
-            //console.log(err);
-            res.status(404);
-          }
-          else {
-            //console.log(member);
-            console.log("Member updated.");
-            res.json({
-              success: true,
-              message: 'Member updated',
-              member: member
+        if (body.image) {
+          cloudinary.uploader.upload(body.image.data, function (result) {
+            console.log(result);
+            var profileImage = { src: result.url, contentType: result.format, id: result.public_id };
+            console.log(profileImage);
+            body.contactInfo.profileImage = profileImage;
+
+            Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+              if (err) {
+                console.log(err);
+                //console.log(err);
+                res.status(404);
+              }
+              else {
+                //console.log(member);
+                console.log("Member updated.");
+                res.json({
+                  success: true,
+                  message: 'Member updated',
+                  member: member
+                });
+              }
             });
-          }
-        });
+          });
+        }
+        else {
+          Member.findByIdAndUpdate(id, { $set: body }, { new: true }, function (err, member) {
+            if (err) {
+              console.log(err);
+              //console.log(err);
+              res.status(404);
+            }
+            else {
+              //console.log(member);
+              console.log("Member updated.");
+              res.json({
+                success: true,
+                message: 'Member updated',
+                member: member
+              });
+            }
+          });
+        }
+
       }
       else {
         //res.status()
@@ -316,6 +401,7 @@ exports.registerByID = (req, res, next, id) => {
 
 //MIDDLEWARE - attatchhes token to the req object
 exports.verifyToken = function (req, res, next) {
+  console.log('verifying token');
   //Token Format
   //Authorization: Bearer <access_token>
 
@@ -332,6 +418,7 @@ exports.verifyToken = function (req, res, next) {
 
   }
   else {
+    console.log(typeof bearerHeader);
     res.json("Authorization Error")
   }
 }
