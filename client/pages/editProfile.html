@@ -121,14 +121,14 @@
         </div>
       </div>
 
-      <div class="input-group">
-        <div class="custom-file">
-          <label class="custom-file-label">Choose profile image</label>
+      <div>
+        <h4>Profile Image</h4>
+        <div>
           <input type="file" accept="image/*"
             onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])"
             ng-model="file.data" file-select="data" file-loaded="myLoaded()" file-error="myError($error)"
             file-progress="myProgress($total,$loaded)" />
-          <img id="preview" height="200" alt="Image Preview" />
+          <img id="preview" height="200" />
         </div>
       </div>
 
