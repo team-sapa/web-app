@@ -1,10 +1,15 @@
 <!-- editProfile.html ~ Where members can edit their own profile -->
 <div class="jumbotron text-left" ng-controller="mainController">
+  <div class="page-title" style="background-image: url(images/page-title.jpg)">
+    <h1>
+      <font color="black"> Edit Profile</font>
+
+    </h1>
+  </div>
   <div ng-if="accessLevel == 0">
     <h2>Access Denied</h2>
   </div>
   <div ng-if="accessLevel == 2 || accessLevel == 1">
-    <h2>Edit Profile</h2>
 
     <form>
       <div class="form-group row">

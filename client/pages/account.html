@@ -1,10 +1,17 @@
 <!-- account.html ~ Dashboard: Where members can route to edit their own profile, view points, events etc -->
 <div class="jumbotron text-center">
+  <div class="page-title" style="background-image: url(images/page-title.jpg)">
+    <h1>
+      <font color="black"> My Account</font>
+
+    </h1>
+  </div>
+  <body>
   <div ng-if="accessLevel == 0">
     <h2>Access Denied</h2>
   </div>
   <div ng-if="accessLevel == 2 || accessLevel == 1">
-    <h2>My Account</h2>
+
 
     <h3>{{user.firstName}} {{user.lastName}}</h3>
 
@@ -30,4 +37,5 @@
 
 
   </div>
+  </body>
 </div>
