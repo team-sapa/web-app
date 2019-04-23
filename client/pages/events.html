@@ -1,8 +1,13 @@
 ﻿<!-- events.html -->
 <div class="jumbotron text-center" ng-controller="eventController">
+  <div class="page-title" style="background-image: url(images/page-title.jpg)">
+    <h1>
+      <font color="black"> Events</font>
+    </h1>
+  </div>
+
     <h2 ng-if="accessLevel == 0">Access Denied</h2>
     <div ng-if="accessLevel > 0">
-        <h2>Event Page</h2>
         <div class="input-group mb-3" ng-if="accessLevel == 2">
             <label>Create a new Event</label>
             <input type="text" class="form-control" placeholder="name" ng-model="newEvent.name">

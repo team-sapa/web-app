@@ -1,0 +1,1 @@
+1. When uploading a new profile image, the user's old profile image does not get removed from the storage server.
