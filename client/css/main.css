@@ -1,6 +1,19 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,600,700,300,800);
 
 
+#bodyworks{
+    background-image: url("../images/backgroudn.png");
+}
+
+#homepageJumbo{
+    border-radius: 25px ;
+    background-color:white; 
+} 
+
+#Logo{
+    border-radius: 25px ;
+}
+
 .profileContainer{
     display: flex;
     border-radius: 20px;

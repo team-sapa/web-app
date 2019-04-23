@@ -20,7 +20,7 @@
                 <td>{{x.contactInfo.firstName}}</td>
                 <td>{{x.contactInfo.lastName}}</td>
                 <td><input type="text" class="form-control" placeholder={{x.points}} ng-model="x.points" ng-change="addpoints(x)"></td>
-                <td style="color:black"><button class="button delButton" ng-model="x.points" ng-click = "addpoints(x)">Update</button></td>
+                <td style="color:black"><button class="button delButton" onclick="location.reload()"ng-model="x.points" ng-click = "addpoints(x)">Update</button></td>
             </tr>
                 
             </table>

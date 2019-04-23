@@ -1,11 +1,8 @@
 <!-- members.html -->
-<div class="homeContainer jumbotron text-center">
-  <div class="page-title" style="background-image: url(images/page-title.jpg)">
-    <h1>
-      <font color="black"> Our Peer Advisors</font>
-    </h1>
-  </div>
+<div id="bodyworks" class="homeContainer jumbotron text-center">
+  <image id="Logo"src="images/sapaPage.png"></image>
 
+  <h1 style="color: rgb(2, 2, 94)">Our Members</h1>
 
   <link rel="stylesheet" href="css/main.css">
 
@@ -55,7 +52,7 @@
         <option value="2">Admin</option>
       </select>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" ng-click="create(newUser)">Send registration
+        <button style="background-color:ghostwhite"class="btn btn-outline-secondary" type="button" ng-click="create(newUser)">Send registration
           email</button>
       </div>
       <h4>{{message}}</h4>
@@ -68,7 +65,7 @@
     </div>
 
     <div class="row">
-      <div class="animate-repeat" ng-repeat="x in members | filter : searchFilters">
+      <div id="homepageJumbo" class="jumbotron" ng-repeat="x in members | filter : searchFilters">
         <div class="memberContainer row" ng-if="x.contactInfo.firstName">
 
           <div class="col-sm-4 single-work">
@@ -128,7 +125,7 @@
     </div>
 
     <div class="row">
-      <div class="animate-repeat" ng-repeat="x in members | filter : searchFilters">
+      <div id="homepageJumbo" class="jumbotron" ng-repeat="x in members | filter : searchFilters">
         <div class="memberContainer row" ng-if="x.contactInfo.firstName">
 
           <div class="col-sm-4 single-work">

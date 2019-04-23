@@ -208,15 +208,22 @@ exports.login = (req, res) => {
 };
 
 exports.changepoints = (req, res) => {
-  let newpoints = req.body.points;
+  let newPoints = req.body.points;
   let id = req.body._id;
 
   console.log(id);
-  console.log(points);
-  Member.findByIdAndUpdate(id, { points: 5}, function(err, member){
-    if(err) throw err;
+  console.log(newPoints);
+  Member.findByIdAndUpdate(id, { points: newPoints}, function(err, member){
+    if(err){
+      console.log(err);
+      throw err;
+    } 
+    else{
+      console.log("member updated: " + id);
+      
+    }
 
-    console.log(member);
+    
   });
 };
 
