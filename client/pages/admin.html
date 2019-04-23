@@ -1,11 +1,16 @@
 <!-- admin.html -->
 <div class="jumbotron text-center" ng-controller="adminController">
+  <div class="page-title" style="background-image: url(images/page-title.jpg)">
+    <h1>
+      <font color="black"> Admin Page</font>
 
+    </h1>
+  </div>
     <div ng-if="accessLevel != 2">
         <h2>Access Denied</h2>
     </div>
     <div ng-if="accessLevel == 2">
-        <h2>Admin Page</h2>
+
         <div class="input-group mb-3">
             <label>Create a new Member</label>
             <input type="text" class="form-control" placeholder="email" ng-model="newUser.email">
