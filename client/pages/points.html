@@ -1,0 +1,30 @@
+<!-- register.html -->
+<div class="jumbotron text-center">
+
+    <h2>Point Management</h2>
+    <div class="input-group mb-3">
+        <div class="topnav">
+            <input type="text" class="form-control" placeholder="Search Members" ng-model="searchFilters">
+        </div>
+
+        <div class="tableWrapper">
+            <table class="table table-striped table-hover">
+            <tr style="border: 1px black">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Points</th>
+                <th></th>
+                
+            </tr>
+            <tr ng-repeat="x in members | filter : searchFilters">
+                <td>{{x.contactInfo.firstName}}</td>
+                <td>{{x.contactInfo.lastName}}</td>
+                <td><input type="text" class="form-control" placeholder={{x.points}} ng-model="x.points" ng-change="addpoints(x)"></td>
+                <td style="color:black"><button class="button delButton" ng-model="x.points" ng-click = "addpoints(x)">Update</button></td>
+            </tr>
+                
+            </table>
+        </div>
+    </div>
+  
+  </div>

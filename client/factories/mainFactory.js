@@ -119,9 +119,9 @@ angular.module('main', []).factory('Main', function ($http, $window) {
       return $http.post('/events/', newEvent);
     },
 
-      updateAttend: function (event, email) {
-          return upAtt(event, email);
-      },
+    updateAttend: function (event, email) {
+      return upAtt(event, email);
+    },
 
 
 
@@ -129,6 +129,11 @@ angular.module('main', []).factory('Main', function ($http, $window) {
     update: function (updatedMember) {
       console.log(updatedMember);
       return $http({ method: 'PATCH', url: '/members/' + updatedMember._id, data: updatedMember });
+    },
+
+    changepoints: function (index) {
+      console.log("Adding " + index.points + " points to member "+index._id);
+      return $http({ method: 'PATCH', url: '/members/changepoints/' + index._id, data: index });
     },
 
     updateMemberLevel: function (updatedMember) {

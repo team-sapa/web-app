@@ -207,6 +207,19 @@ exports.login = (req, res) => {
     });
 };
 
+exports.changepoints = (req, res) => {
+  let newpoints = req.body.points;
+  let id = req.body._id;
+
+  console.log(id);
+  console.log(points);
+  Member.findByIdAndUpdate(id, { points: 5}, function(err, member){
+    if(err) throw err;
+
+    console.log(member);
+  });
+};
+
 //REMOVES MEMBER BY ID
 exports.remove = (req, res) => {
   var id = req.params.memberID;

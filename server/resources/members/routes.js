@@ -26,6 +26,9 @@ router.route('/:memberID')
 //.get(attendance.eventList)                        //displays this members event list
 //.patch(member.verifyToken, attendance.update);   //updates this members attendance status (memberID same or member level high enough)
 
+router.route('/changepoints/:memberID')
+    .patch(member.changepoints)
+
 router.route('/level/:memberID')
     .patch(member.updateLevel)
 

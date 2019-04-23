@@ -169,6 +169,15 @@ angular.module('sapaApp')
         $scope.user.contactInfo.minor.push('');
       }
 
+      //points
+      $scope.addpoints = function(index) 
+      {
+        console.log("Add Points");
+
+        Main.changepoints(index).then(function () {
+          console.log("Points have been added");
+        });
+      }
 
     }
   ])
