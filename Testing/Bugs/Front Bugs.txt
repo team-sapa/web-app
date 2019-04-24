@@ -1,1 +1,2 @@
 1. Members without a profile image display differently than members with a profile image on the members (home) page.
+2. Members can sign up for past events.
