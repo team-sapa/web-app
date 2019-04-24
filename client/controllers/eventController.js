@@ -156,10 +156,6 @@ angular.module('sapaApp').controller('eventController', ['$scope', 'Main',
         }
 
         $scope.signUp = function (stats, email) {
-            if ($scope.accessLevel < 2 && Date.now() > (new Date($scope.selectedEvent.date)).getMilliseconds()) {
-                $scope.message = 'too late to sign up';
-                return;
-            }
 
             if ($scope.selectedEvent.current >= $scope.selectedEvent.max && $scope.selectedEvent.max > 0 && stats == 1) {
                 $scope.message = 'event is full';
